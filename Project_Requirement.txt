@@ -1,0 +1,76 @@
+================================================================================
+AI INTERVIEW PREPARATION SYSTEM - FUNCTIONAL & NON-FUNCTIONAL REQUIREMENTS
+================================================================================
+
+1. CORE FUNCTIONAL REQUIREMENTS (BEYOND BASIC Q&A)
+--------------------------------------------------
+
+FR1. RESUME UPLOAD & PARSING
+- System shall allow users to upload resumes in PDF/DOCX formats.
+- System shall extract: Skills, Experience, Education, Projects, Tools & Tech.
+- ENHANCEMENT: Use NLP to identify implicit skills, not just keywords.
+
+FR2. JOB & COMPANY SELECTION
+- System shall allow users to select: Target company and Target role (SDE, ML Engineer, etc.).
+- System shall map resume skills to company-specific requirements.
+- EXAMPLE: Google SDE -> DSA + System Design + Coding.
+
+FR3. PERSONALIZED INTERVIEW QUESTION GENERATION
+- System shall generate role-specific interview questions.
+- Questions shall be categorized into: Technical, Behavioral, Project-based, Coding/ML/System Design.
+- ADVANCED: Difficulty adapts based on user performance.
+
+FR4. ANSWER EVALUATION & FEEDBACK
+- System shall evaluate user answers using: Semantic similarity, Concept coverage, Clarity/Structure.
+- System shall provide: Strengths, Weaknesses, and Missing concepts.
+
+FR5. SKILL GAP ANALYSIS
+- System shall compare: Resume skills vs. Company role expectations.
+- System shall identify: Missing skills and Weak areas.
+- EXAMPLE: "Lack of system design experience for SDE-2 role."
+
+FR6. PERSONALIZED IMPROVEMENT SUGGESTIONS
+- System shall suggest: Topics to study, Project improvements, Resume enhancements, Strategies.
+- EXAMPLE: "Add distributed systems project to strengthen backend profile."
+
+
+2. ADVANCED FUNCTIONAL REQUIREMENTS (HIGH RESUME VALUE)
+-------------------------------------------------------
+
+FR7. ADAPTIVE INTERVIEW FLOW (AI INTELLIGENCE)
+- Question difficulty shall increase/decrease dynamically.
+- Follow-up questions based on previous answers (demonstrates autonomy).
+
+FR8. CODING & TECHNICAL ASSESSMENT
+- System shall provide: Coding questions, Pseudocode evaluation, Logical correctness analysis.
+
+FR9. BEHAVIORAL INTERVIEW EVALUATION
+- System shall evaluate answers using STAR framework.
+- Provide soft-skill feedback: Communication, Leadership, Problem-solving.
+
+FR10. RESUME IMPROVEMENT SUGGESTIONS
+- System shall suggest: Bullet point rewrites, Impact-based wording, Missing metrics.
+- EXAMPLE: Rewrite "Worked on backend" to "Designed REST APIs handling 10k+ daily requests."
+
+
+3. NON-FUNCTIONAL REQUIREMENTS (NFRs)
+-------------------------------------
+
+NFR1. SCALABILITY
+- System should support multiple users simultaneously.
+- Architecture should be modular and scalable.
+
+NFR2. PERFORMANCE
+- Resume parsing & question generation should complete within seconds.
+
+NFR3. SECURITY & PRIVACY
+- Resume data shall be encrypted.
+- No data sharing without consent (critical for user trust).
+
+NFR4. EXPLAINABILITY
+- System should explain why a specific question was asked or why a suggestion was given.
+
+NFR5. RELIABILITY
+- System should handle incomplete or poorly formatted resumes gracefully.
+
+================================================================================
