@@ -11,7 +11,7 @@ A smart, interactive system for interview preparation and resume evaluation
 
 This document defines the functional requirements for the **AI Interview & Resume Screening Agent**, a web-based platform that helps users practice interviews and improve their resumes using AI-driven feedback.
 
- 1.2 Scope
+1.2 Scope
 
 The system will allow users to upload resumes, receive AI-based screening and feedback, simulate interviews (technical, HR, and resume-based), and track their progress over time.
 
