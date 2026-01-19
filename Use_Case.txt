@@ -1,0 +1,3 @@
+Possible Use Cases:
+
+1. User Registration & Login
