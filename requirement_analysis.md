@@ -43,10 +43,10 @@ Working professionals
 
 4.1 User Authentication & Profile Management
 
-(i) The system shall allow users to sign up using email and OAuth (Google, GitHub).
-(ii) The system shall allow users to log in securely using credentials.
-(iii) The system shall allow users to create a profile with name, experience level, target role, and years of experience.
-(iv) The system shall allow users to update and persist profile information.
+(i) Allow users to sign up using email and OAuth (Google, GitHub).
+(ii) Allow users to log in securely using credentials.
+(iii) Allow users to create a profile with name, experience level, target role, and years of experience.
+(iv) Allow users to update and persist profile information.
 
 
 4.2 Resume Upload & Parsing
