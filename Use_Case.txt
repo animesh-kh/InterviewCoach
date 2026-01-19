@@ -1,1 +1,8 @@
-Possible cases are:
+Step 2: List the Actors 
+
+Actor	                   Description
+
+Candidate / Job Seeker     Uploads resume, views corrections, applies for jobs, and checks interview status
+HR / Recruiter	           Posts jobs, screens resumes, shortlists candidates, schedules interviews
+Admin	                   Manages users and overall system control
+Email/SMS Service          Sends notifications to candidates
