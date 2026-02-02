@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+
+actor "Guest User" as Guest
+actor "Registered User" as User
+actor "AI Bot" as AI
+actor "Authentication Service" as Auth
+
+database "Resume Database" as ResumeDB
+database "Feedback Database" as FeedbackDB
+
+rectangle "AI Interview & Resume Screening System" {
+
+  (View Website) as ViewWebsite
+  (Register) as Register
+  (Login) as Login
+  (Upload Résumé) as UploadResume
+  (Analyze Résumé) as AnalyzeResume
+  (Recommend Résumé Improvements) as RecommendResume
+  (Select Company) as SelectCompany
+  (Select Experience) as SelectExperience
+  (Attend Interview) as AttendInterview
+
+  (HR) as HR
+  (Technical) as Technical
+  (Communication) as Communication
+
+  (Student Answers) as StudentAnswers
+  (Evaluate Answers) as EvaluateAnswers
+  (Generate Score) as GenerateScore
+  (Provide Skill Improvement Suggestions) as SkillSuggestions
+}
+
+' Associations
+Guest --> ViewWebsite
+ViewWebsite --> Register
+User --> Login
+User --> UploadResume
+User --> SelectCompany
+
+Register --> Auth
+Login --> Auth
+
+AnalyzeResume --> RecommendResume
+SelectCompany --> AttendInterview
+
+AttendInterview --> HR
+AttendInterview --> Technical
+AttendInterview --> Communication
+
+AI --> AnalyzeResume
+AI --> EvaluateAnswers
+AI --> GenerateScore
+AI --> SkillSuggestions
+
+' Database interactions
+UploadResume --> ResumeDB : store résumé
+AnalyzeResume --> ResumeDB : retrieve résumé
+
+GenerateScore --> FeedbackDB : store score
+SkillSuggestions --> FeedbackDB : store feedback
+AI --> FeedbackDB : read/write feedback
+
+' Include / Extend relationships
+SelectCompany ..> SelectExperience : <<extend>>
+AttendInterview ..> StudentAnswers : <<include>>
+StudentAnswers ..> EvaluateAnswers : <<include>>
+
+UploadResume ..> Login : <<extend>>
+
+@enduml
