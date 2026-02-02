@@ -1,0 +1,47 @@
+Step 1: Identify the Use Cases
+
+Use cases represent what the system can do from the user’s perspective.
+Based on the AI Interview System requirements, the following use cases are identified:
+
+View Website
+Register Account
+Login
+Upload Resume
+Analyze Resume
+Select Company
+Select Experience Level
+Choose Interview Round
+Attend Interview
+Answer Questions
+Evaluate Responses
+Generate Scores
+Provide Skill Improvement Suggestions
+
+Each of these use cases represents a specific service offered by the AI Interview System. 
+These use cases are represented using ovals in the use case diagram.
+
+Step 2: Identify the Actors
+
+Actors are external entities that interact with the AI Interview System. 
+They initiate or participate in the use cases but are not part of the system itself.
+The actors identified in the AI Interview System are:
+
+Guest User
+   Can view the website
+   Can register for an account
+
+Registered User
+   Can log in
+   Can upload resume
+   Can select company and interview round
+   Can attend AI-based interviews
+   Can receive scores and feedback
+
+AI Chatbot
+   Conducts interview rounds
+   Asks questions
+   Evaluates user responses
+Generates scores and feedback
+
+
+Note:Actors are represented using stick figures and are placed outside the system boundary in the use case diagram.
