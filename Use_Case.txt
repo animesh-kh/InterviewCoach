@@ -1,0 +1,9 @@
+Possible Use Cases:
+
+1. User Registration & Login
+2. Resume Upload & Parsing
+3. AI Resume Screening & Feedback
+4. AI Interview Simulation
+5. Interview Evaluation & Feedback
+6. User Progress Dashboard
+7. Admin & Recruiter Functions
