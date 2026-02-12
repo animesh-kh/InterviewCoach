@@ -213,3 +213,6 @@ data/
 *.parquet
 .DS_Store
 **/.DS_Store
+
+!frontend/
+!frontend/**
