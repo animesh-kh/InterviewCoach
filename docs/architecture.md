@@ -156,8 +156,6 @@ AI/ML Model APIs
 
 Speech Recognition API
 
-Email Notification Service
-
 Overall Component Interaction
 User → Frontend → API Gateway → Microservices → Database
                                   ↓
