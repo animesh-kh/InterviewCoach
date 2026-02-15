@@ -1,115 +1,176 @@
-# AI Interview Preparation System – Software Architecture
+CS331 – Software Engineering Lab
+Assignment-4
 
-## I. Chosen Software Architecture Style
+Project Chosen: AI Interview Coach System
 
-**Chosen Style:** Microservices Architecture (with API Gateway and React Frontend)
+I. Selected Software Architecture Style
+Microservices Architecture
 
-### A. Justification – How the System Fits Microservices Architecture
+The system is divided into multiple small independent services where each service performs a single business function and communicates using APIs (HTTP/REST).
 
-The AI Interview Preparation System is divided into small, independent, and loosely coupled services. Each service is responsible for a single business functionality.
+A. Justification based on Component Granularity
 
-#### Granularity of Components
+Granularity = how big or small each module/service is
 
-* **User Service** → authentication, profile management, roles
-* **Interview Service** → question banks, mock interview sessions, scheduling
-* **AI Feedback Service** → voice/video analysis and scoring
-* **Performance Report Service** → report generation and storage
-* **Notification Service** → email and in‑app notifications
-* **Payment Service (optional)** → subscription handling
+In our project, each service handles only one responsibility → Fine-grained services.
 
-Each service follows the **Database‑per‑Service pattern** and communicates using:
+Service	Responsibility	Granularity Level
+Authentication Service	Login/Register	Small
+Resume Analysis Service	Parse & analyze resume	Small
+Question Generation Service	Generate interview questions	Small
+AI Evaluation Service	Analyze answers	Small
+Speech Processing Service	Speech-to-text & text-to-speech	Small
+Feedback Service	Generate feedback & score	Small
+Report Service	Generate performance report	Small
+Why it is Microservices
 
-* REST APIs / gRPC (synchronous)
-* Message queues (RabbitMQ / Kafka) for asynchronous processing
+Each module runs independently
 
----
+Each has its own logic & API
 
-### B. Justification – Why Microservices is the Best Choice
+Can be deployed separately
 
-#### 1. Scalability
+Failure in one service does NOT crash whole system
 
-Each service scales independently. Example: AI analysis service scales during peak interview hours without affecting login service.
+Simple Architecture Diagram
+                ┌──────────────┐
+                │   Frontend   │
+                │ (React App)  │
+                └──────┬───────┘
+                       │ API Gateway
+        ───────────────────────────────────
+        │        │        │        │       │
+ Auth  Resume  Question  AI Eval  Speech  Report
+Service Service Service  Service  Service Service
+        │        │        │        │       │
+                 └────── Database ────────┘
 
-#### 2. Maintainability
+B. Why Microservices is Best Choice
+1. Scalability
 
-Small services are easier to test, debug, and deploy. Multiple teams can work simultaneously.
+Only heavy modules scaled (AI evaluation, speech processing)
 
-#### 3. Technology Flexibility
+Saves server cost
 
-* Python + ML frameworks → AI processing
-* Node.js → APIs
-* Go → performance modules
+Handles multiple students simultaneously
 
-#### 4. Fault Isolation
+Example:
+During placement season → only AI evaluation service load increases → scale only that service.
 
-Failure of one service does not crash the entire system.
+2. Maintainability
 
-#### 5. Faster Deployment
+Each module independent
 
-Continuous deployment of individual services is possible.
+Easy debugging
 
-**Trade‑offs Accepted:**
+New feature added without affecting others
 
-* Distributed complexity
-* Network latency
-* Eventual consistency
+Example:
+Adding new emotion-analysis → update only AI Evaluation Service.
 
----
+3. Performance
 
-## II. Main Application Components
+Parallel execution of services
 
-### 1. Frontend (Client Side)
+Faster response time
 
-React.js Single Page Application (SPA)
+Load balancing possible
 
-* Login / Register
-* Dashboard
-* Interview Room
-* Reports
-* Profile
+4. Fault Tolerance
 
-### 2. API Gateway
+If speech service fails → text interview still works
 
-Handles routing, authentication (JWT), and rate limiting.
+Whole system does not crash
 
-### 3. Backend Microservices
+5. Technology Flexibility
 
-| Service               | Responsibility            |
-| --------------------- | ------------------------- |
-| User Service          | Authentication & profiles |
-| Interview Service     | Sessions & questions      |
-| AI Processing Service | Speech analysis & scoring |
-| Report Service        | Performance reports       |
-| Notification Service  | Alerts & emails           |
+Different technologies can be used:
 
-### 4. Databases (Polyglot Persistence)
+Python → AI Models
 
-* PostgreSQL → users & sessions
-* MongoDB → questions & reports
-* Redis → caching & queues
+NodeJS → Backend APIs
 
-### 5. Message Broker
+React → Frontend
 
-RabbitMQ / Kafka
+Conclusion
 
-Example Flow:
-`Interview Completed → AI Analysis → Generate Report → Send Notification`
+Microservices fits because system contains multiple independent AI functionalities that must scale and evolve separately.
 
-### 6. Authentication & Authorization
+II. Components of the Software System
+1. Client Side Components (Frontend)
 
-* JWT tokens
-* OAuth2 (Google / LinkedIn)
+User Interface (Dashboard)
 
-### 7. Storage
+Interview Screen
 
-S3‑compatible storage for recordings and reports
+Video/Audio Recorder
 
-### 8. Monitoring
+Result & Analytics Page
 
-* Prometheus + Grafana
-* ELK / Loki
-* Jaeger tracing
+Profile & History Page
 
-## Conclusion
+2. Backend Application Components
+Core Services
 
-Microservices architecture enables scalability, flexibility, and fault tolerance required for an AI‑based interview preparation platform while supporting long‑term growth.
+Authentication Service
+
+User Profile Service
+
+Session Management Service
+
+AI Services
+
+Resume Analyzer
+
+Question Generator
+
+Answer Evaluation Engine
+
+Emotion Detection
+
+Speech-to-Text Engine
+
+Text-to-Speech Engine
+
+Data Services
+
+Feedback Generator
+
+Scoring Engine
+
+Report Generator
+
+3. Storage Components
+
+User Database
+
+Interview Recordings Storage
+
+Result/Report Database
+
+Logs Database
+
+4. External Integrations
+
+AI/ML Model APIs
+
+Speech Recognition API
+
+Email Notification Service
+
+Overall Component Interaction
+User → Frontend → API Gateway → Microservices → Database
+                                  ↓
+                           AI Processing Engines
+                                  ↓
+                              Feedback
+                                  ↓
+                               Report
+
+Final Summary
+
+Architecture Used: Microservices
+
+Reason: Independent AI modules, scalable, maintainable, fault-tolerant
+
+Components: Frontend UI + Multiple backend services + AI engines + Databases + External API
