@@ -63,7 +63,7 @@ Example:
 Adding new emotion-analysis → update only AI Evaluation Service.
 
 3. Performance
-4. 
+
 Parallel execution of services
 Faster response time
 Load balancing possible
