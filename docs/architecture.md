@@ -14,15 +14,17 @@ Granularity = how big or small each module/service is
 
 In our project, each service handles only one responsibility → Fine-grained services.
 
-Service	Responsibility	Granularity Level
-Authentication Service	Login/Register	Small
-Resume Analysis Service	Parse & analyze resume	Small
-Question Generation Service	Generate interview questions	Small
-AI Evaluation Service	Analyze answers	Small
-Speech Processing Service	Speech-to-text & text-to-speech	Small
-Feedback Service	Generate feedback & score	Small
-Report Service	Generate performance report	Small
-Why it is Microservices
+Service                         	Responsibility	                                  Granularity Level
+Authentication Service	            Login/Register                                    	Small
+Resume Analysis Service	         Parse & analyze resume                               	Small
+Question Generation Service	     Generate interview questions	                          Small
+AI Evaluation Service              	Analyze answers	                                    Small
+Speech Processing Service       	Speech-to-text & text-to-speech	                      Small
+Feedback Service	                 Generate feedback & score	                          Small
+Report Service                  	Generate performance report	                          Small
+
+
+Why it is Microservices:-
 
 Each module runs independently
 
@@ -88,7 +90,7 @@ Different technologies can be used:
 
 Python → AI Models
 
-NodeJS → Backend APIs
+NodeJs → Backend APIs
 
 React → Frontend
 
