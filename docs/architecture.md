@@ -11,7 +11,6 @@ The system is divided into multiple small independent services where each servic
 A. Justification based on Component Granularity
 
 Granularity = how big or small each module/service is
-
 In our project, each service handles only one responsibility → Fine-grained services.
 
 Service                         	Responsibility	                                  Granularity Level
@@ -27,11 +26,8 @@ Report Service                  	Generate performance report	                   
 Why it is Microservices:-
 
 Each module runs independently
-
 Each has its own logic & API
-
 Can be deployed separately
-
 Failure in one service does NOT crash whole system
 
 Simple Architecture Diagram
@@ -51,9 +47,7 @@ B. Why Microservices is Best Choice
 1. Scalability
 
 Only heavy modules scaled (AI evaluation, speech processing)
-
 Saves server cost
-
 Handles multiple students simultaneously
 
 Example:
@@ -62,36 +56,28 @@ During placement season → only AI evaluation service load increases → scale 
 2. Maintainability
 
 Each module independent
-
 Easy debugging
-
 New feature added without affecting others
 
 Example:
 Adding new emotion-analysis → update only AI Evaluation Service.
 
 3. Performance
-
+4. 
 Parallel execution of services
-
 Faster response time
-
 Load balancing possible
 
-4. Fault Tolerance
+5. Fault Tolerance
 
 If speech service fails → text interview still works
-
 Whole system does not crash
 
 5. Technology Flexibility
 
 Different technologies can be used:
-
 Python → AI Models
-
-NodeJs → Backend APIs
-
+FastAPI → Backend APIs
 React → Frontend
 
 Conclusion
@@ -102,62 +88,40 @@ II. Components of the Software System
 1. Client Side Components (Frontend)
 
 User Interface (Dashboard)
-
 Interview Screen
-
 Video/Audio Recorder
-
 Result & Analytics Page
-
 Profile & History Page
 
 2. Backend Application Components
 Core Services
 
 Authentication Service
-
 User Profile Service
-
 Session Management Service
-
 AI Services
-
 Resume Analyzer
-
 Question Generator
-
 Answer Evaluation Engine
-
 Emotion Detection
-
 Speech-to-Text Engine
-
 Text-to-Speech Engine
-
 Data Services
-
 Feedback Generator
-
 Scoring Engine
-
 Report Generator
 
 3. Storage Components
 
 User Database
-
 Interview Recordings Storage
-
 Result/Report Database
-
 Logs Database
 
 4. External Integrations
 
 AI/ML Model APIs
-
 Speech Recognition API
-
 Overall Component Interaction
 User → Frontend → API Gateway → Microservices → Database
                                   ↓
@@ -170,7 +134,5 @@ User → Frontend → API Gateway → Microservices → Database
 Final Summary
 
 Architecture Used: Microservices
-
 Reason: Independent AI modules, scalable, maintainable, fault-tolerant
-
 Components: Frontend UI + Multiple backend services + AI engines + Databases + External API
