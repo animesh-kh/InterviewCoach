@@ -1,0 +1,97 @@
+I. Hosting of Application Components
+1️⃣ Host Site (Target Cloud Platform)
+
+All components will be deployed on:
+
+Render Cloud Platform
+
+Component	       Hosting Type	         Technology Used
+
+Frontend	     Render Static Site	          React
+Backend	         Render Web Service	     FastAPI (Python)
+Database	     Render Managed DB /     MongoDB / PostgreSQL
+                 External Cloud DB	
+
+
+
+2️⃣ Deployment Strategy
+
+Step 1: Version Control Setup
+
+Maintain project in GitHub repository.
+
+Separate folders:
+/frontend   → React App
+/backend    → FastAPI App
+Step 2: Backend Deployment (FastAPI)
+
+Create requirements.txt including:
+fastapi
+uvicorn
+database driver (pymongo / sqlalchemy)
+Configure entry file main.py.
+
+On Render:
+Create New Web Service
+Select backend folder
+Build Command:
+pip install -r requirements.txt
+
+Start Command:
+uvicorn main:app --host 0.0.0.0 --port 10000
+Add Environment Variables:
+DATABASE_URL
+SECRET_KEY
+PORT
+
+Backend URL generated:
+
+https://project-api.onrender.com
+
+
+Step 3: Frontend Deployment (React)
+Create Static Site on Render.
+Select frontend folder.
+
+
+Configure:
+Build Command:
+npm install && npm run build
+
+Publish Directory:
+build
+
+Add environment variable:
+
+REACT_APP_API_URL=https://project-api.onrender.com
+Step 4: API Configuration
+
+Backend exposes REST APIs:
+
+/login
+/register
+/data
+
+Frontend calls backend using:
+
+fetch(`${process.env.REACT_APP_API_URL}/data`)
+Enable CORS in FastAPI to allow frontend domain.
+
+3️⃣ Security Measures
+
+HTTPS Encryption:-
+Render provides automatic SSL certificates.
+All communication occurs over HTTPS.
+
+Authentication:-
+JWT-based authentication for secure login sessions.
+
+Password Security:-
+Passwords hashed using bcrypt/passlib.
+
+Environment Protection:-
+API keys and database credentials stored in Render environment variables.
+Not exposed in source code.
+
+CORS Policy:-
+Only frontend domain allowed to access backend APIs.
