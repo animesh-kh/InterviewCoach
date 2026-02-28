@@ -1,0 +1,53 @@
+Component Diagram
+                +----------------------+
+                |        User          |
+                |   (Web Browser)      |
+                +----------+-----------+
+                           |
+                           | HTTPS
+                           v
+        +--------------------------------------+
+        |   Frontend Component (React App)     |
+        |   - UI Pages                         |
+        |   - API Service Layer                |
+        |   Hosted on Render (Static Site)     |
+        +------------------+-------------------+
+                           |
+                           | REST API Calls (JSON)
+                           v
+        +--------------------------------------+
+        |   Backend Component (FastAPI)        |
+        |   - Authentication Module            |
+        |   - Business Logic                   |
+        |   - API Endpoints (/login, /data)    |
+        |   Hosted on Render (Web Service)     |
+        +------------------+-------------------+
+                           |
+                           | Database Queries
+                           v
+        +--------------------------------------+
+        |        Database Component            |
+        |   - User Collection/Table            |
+        |   - Application Data                 |
+        |   MongoDB / PostgreSQL               |
+        +--------------------------------------+
+
+UML-Style Component Representation
+[User]
+
+[React Frontend]  -->  [FastAPI Backend]  -->  [Database]
+       |                      |
+       | HTTPS                | ORM / Driver
+       |                      |
+    <<Static Site>>        <<Web Service>>
+        Render                Render
+
+
+
+Component Relationships
+
+Component	           Type	                       Interaction
+User	            External Actor	        Accesses frontend via HTTPS
+React Frontend	    Client Component	      Sends REST API requests
+FastAPI Backend	    Server Component	    Processes requests & business logic
+Database	          Data Component	         Stores & retrieves data       
