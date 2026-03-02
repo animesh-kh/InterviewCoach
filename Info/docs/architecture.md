@@ -11,18 +11,19 @@ The system is divided into multiple small independent services where each servic
 A. Justification based on Component Granularity
 
 Granularity = how big or small each module/service is
-
 In our project, each service handles only one responsibility → Fine-grained services.
 
-Service	Responsibility	Granularity Level
-Authentication Service	Login/Register	Small
-Resume Analysis Service	Parse & analyze resume	Small
-Question Generation Service	Generate interview questions	Small
-AI Evaluation Service	Analyze answers	Small
-Speech Processing Service	Speech-to-text & text-to-speech	Small
-Feedback Service	Generate feedback & score	Small
-Report Service	Generate performance report	Small
-Why it is Microservices
+Service                         	Responsibility	                                  Granularity Level
+Authentication Service	            Login/Register                                    	Small
+Resume Analysis Service	         Parse & analyze resume                               	Small
+Question Generation Service	     Generate interview questions	                          Small
+AI Evaluation Service              	Analyze answers	                                    Small
+Speech Processing Service       	Speech-to-text & text-to-speech	                      Small
+Feedback Service	                 Generate feedback & score	                          Small
+Report Service                  	Generate performance report	                          Small
+
+
+Why it is Microservices:-
 
 Each module runs independently
 Each has its own logic & API
@@ -67,7 +68,7 @@ Parallel execution of services
 Faster response time
 Load balancing possible
 
-4. Fault Tolerance
+5. Fault Tolerance
 
 If speech service fails → text interview still works
 Whole system does not crash
@@ -76,7 +77,7 @@ Whole system does not crash
 
 Different technologies can be used:
 Python → AI Models
-FASTAPIs → Backend APIs
+FastAPI → Backend APIs
 React → Frontend
 
 Conclusion
@@ -121,8 +122,6 @@ Logs Database
 
 AI/ML Model APIs
 Speech Recognition API
-Email Notification Service
-
 Overall Component Interaction
 User → Frontend → API Gateway → Microservices → Database
                                   ↓
