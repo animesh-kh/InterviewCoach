@@ -213,3 +213,4 @@ data/
 *.parquet
 .DS_Store
 **/.DS_Store
+backend/.env
