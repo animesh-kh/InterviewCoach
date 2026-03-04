@@ -1,11 +1,28 @@
 from fastapi import FastAPI
-from sqlalchemy import text
-from db.database import engine
+from fastapi.middleware.cors import CORSMiddleware
+from router import auth, resume, interview
 
-app = FastAPI()
+app = FastAPI(
+    title="AI Interview Coach API",
+    description="Backend for resume screening and AI interview coaching.",
+    version="1.0.0"
+)
 
-@app.get("/test-db")
-def test_db():
-    with engine.connect() as conn:
-        conn.execute(text("SELECT 1"))
-    return {"message": "Supabase connected successfully"}
+# ── CORS ──────────────────────────────────────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # TODO: restrict to your frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ── Routers ───────────────────────────────────────────────────────────────────
+app.include_router(auth.router)
+app.include_router(resume.router)
+app.include_router(interview.router)
+
+
+@app.get("/")
+def root():
+    return {"status": "ok", "message": "AI Interview Coach API is running"}
