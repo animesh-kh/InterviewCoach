@@ -1,13 +1,17 @@
 import { motion } from 'motion/react';
+import { useNavigate } from "react-router-dom";
 import { 
   Zap,
   ArrowRight,
   Play,
   CheckCircle2,
-  Star
+  Star 
 } from 'lucide-react';
 
 const Hero = () => {
+
+  const navigate = useNavigate();
+
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
       
@@ -39,13 +43,20 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95 flex items-center justify-center gap-2">
+
+              {/* Start Free Trial Button */}
+              <button
+                onClick={() => navigate("/signup")}
+                className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95 flex items-center justify-center gap-2"
+              >
                 Start Free Trial <ArrowRight className="w-5 h-5" />
               </button>
 
+              {/* Watch Demo Button (unchanged) */}
               <button className="w-full sm:w-auto bg-white text-slate-900 border border-slate-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center gap-2">
                 <Play className="w-5 h-5 fill-slate-900" /> Watch Demo
               </button>
+
             </div>
 
             <div className="mt-12 flex items-center gap-6">

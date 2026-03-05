@@ -3,7 +3,7 @@ import { Play } from 'lucide-react';
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-slate-50">
+    <section id="howitworks" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           

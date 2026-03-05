@@ -1,6 +1,10 @@
 import { motion } from 'motion/react';
+import { useNavigate } from "react-router-dom";
 
 const CTA = () => {
+
+  const navigate = useNavigate();
+
   return (
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-6">
@@ -34,13 +38,18 @@ const CTA = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="w-full sm:w-auto bg-white text-indigo-600 px-10 py-5 rounded-full font-bold text-lg hover:bg-slate-50 transition-all shadow-xl active:scale-95">
+
+              {/* Get Started Button */}
+              <button
+                onClick={() => navigate("/signup")}
+                className="w-full sm:w-auto bg-white text-indigo-600 px-10 py-5 rounded-full font-bold text-lg 
+                transition-all duration-300 
+                hover:bg-slate-50 hover:scale-105 hover:shadow-2xl 
+                active:scale-95"
+              >
                 Get Started for Free
               </button>
-
-              <button className="w-full sm:w-auto bg-indigo-700 text-white border border-indigo-500 px-10 py-5 rounded-full font-bold text-lg hover:bg-indigo-800 transition-all active:scale-95">
-                View Enterprise Plans
-              </button>
+           
             </div>
           </motion.div>
 
