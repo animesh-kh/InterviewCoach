@@ -15,14 +15,10 @@ export default function Landing() {
   const location = useLocation();
 
   useEffect(() => {
-
     const section = location.pathname.replace("/", "");
-
     if (!section) return;
-
     const scrollToSection = () => {
       const element = document.getElementById(section);
-
       if (element) {
         element.scrollIntoView({
           behavior: "smooth",
@@ -30,11 +26,8 @@ export default function Landing() {
         });
       }
     };
-
     requestAnimationFrame(scrollToSection);
-
   }, [location.pathname]);
-
   return (
     <>
       <Navbar />
