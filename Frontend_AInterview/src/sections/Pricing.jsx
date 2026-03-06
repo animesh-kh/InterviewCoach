@@ -54,10 +54,14 @@ export default function Pricing() {
 
   const navigate = useNavigate();
 
+  const handlePricingAction = () => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/dashboard");
+    else navigate("/signin");
+  };
+
   return (
     <section id="pricing" className="py-24 bg-slate-50 relative overflow-hidden">
-
-      {/* Background effects */}
 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-3xl opacity-60" />
@@ -66,30 +70,21 @@ export default function Pricing() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* Heading */}
-
         <div className="text-center max-w-3xl mx-auto mb-16">
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
               Invest in Your <span className="text-indigo-600">Future Self</span>
             </h2>
-
             <p className="text-lg text-slate-600">
               Choose the plan that fits your career goals.
             </p>
-
           </motion.div>
-
         </div>
-
-        {/* Pricing cards */}
 
         <div className="grid lg:grid-cols-3 gap-8">
 
@@ -114,10 +109,7 @@ export default function Pricing() {
                 </div>
               )}
 
-              {/* Plan header */}
-
               <div className="mb-8">
-
                 <div className="mb-4">{plan.icon}</div>
 
                 <h3 className="text-2xl font-bold text-slate-700 mb-2">
@@ -134,35 +126,23 @@ export default function Pricing() {
                 <p className="text-slate-600 text-sm">
                   {plan.description}
                 </p>
-
               </div>
 
-              {/* Features */}
-
               <div className="flex-grow space-y-4 mb-8">
-
                 {plan.features.map((feature) => (
-
                   <div key={feature} className="flex items-start gap-3">
-
                     <div className="mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center bg-indigo-100 text-indigo-600">
                       <Check size={12} strokeWidth={3} />
                     </div>
-
                     <span className="text-slate-700 text-sm">
                       {feature}
                     </span>
-
                   </div>
-
                 ))}
-
               </div>
 
-              {/* Button */}
-
               <button
-                onClick={() => navigate("/signin")}
+                onClick={handlePricingAction}
                 className={`w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition ${
                   plan.highlight
                     ? "bg-indigo-600 text-white hover:bg-indigo-700"
