@@ -4,77 +4,64 @@ import Sidebar from "../components/dashboard/Sidebar";
 import { getCurrentUser } from "../utils/api";
 
 export default function DashboardLayout() {
-
   const navigate = useNavigate();
   const [userName, setUserName] = useState("User");
 
   useEffect(() => {
-
     const loadUser = async () => {
-
       try {
-
         const user = await getCurrentUser();
-
         if (user?.full_name) {
           setUserName(user.full_name);
         }
-
       } catch (error) {
         console.error(error);
       }
-
     };
-
     loadUser();
-
   }, []);
 
   const handleLogout = () => {
-
     localStorage.removeItem("token");
-
     navigate("/", { replace: true });
+  };
 
+  const goBack = () => {
+    navigate(-1);
   };
 
   return (
-
     <div className="min-h-screen flex bg-slate-50">
-
       <Sidebar />
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto relative">
 
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10">
-
-          <h2 className="text-lg font-semibold text-slate-900">
-            Welcome back, {userName} 👋
-          </h2>
+        {/* Top-right controls */}
+        <div className="flex justify-end gap-4 p-6">
+          <button
+            onClick={goBack}
+            className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg"
+          >
+            Back
+          </button>
 
           <button
             onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg"
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
           >
             Logout
           </button>
+        </div>
 
-        </header>
-
-        <div className="p-8 max-w-7xl mx-auto">
+        {/* Page Content */}
+        <div className="px-8 pb-8 max-w-7xl mx-auto">
           <Outlet />
         </div>
 
       </main>
-
     </div>
-
   );
 }
-
-
-
-
 
 
 
