@@ -29,15 +29,12 @@ export default function AuthPage() {
     setIsLoading(true);
 
     try {
-
       const endpoint = isLogin
         ? "http://127.0.0.1:8000/auth/signin"
         : "http://127.0.0.1:8000/auth/signup";
-
       const body = isLogin
         ? { email, password }
         : { full_name: name, email, password };
-
       const res = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -45,38 +42,27 @@ export default function AuthPage() {
         },
         body: JSON.stringify(body)
       });
-
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.detail || "Authentication failed");
       }
-
       const data = await res.json();
-
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
-        navigate("/dashboard");
+        navigate("/");
       } else {
         alert("Account created. Please login.");
         setIsLogin(true);
       }
-
     } catch (err) {
-
       alert(err.message);
-
     }
-
     setIsLoading(false);
   };
-
   const handleResetSubmit = async (e) => {
-
     e.preventDefault();
     setIsLoading(true);
-
     try {
-
       const res = await fetch("http://127.0.0.1:8000/auth/reset-password", {
         method: "POST",
         headers: {
@@ -86,39 +72,28 @@ export default function AuthPage() {
           email: email
         })
       });
-
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err.detail || "Reset failed");
       }
-
       setIsResetSent(true);
-
     } catch (err) {
-
       alert(err.message);
-
     }
-
     setIsLoading(false);
   };
-
   return (
 
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-
         <div className="text-center mb-8">
-
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 text-white mb-4">
             <Briefcase size={32} />
           </div>
-
           <h1 className="text-3xl font-bold">
             InterviewMind <span className="text-indigo-600">AI</span>
           </h1>

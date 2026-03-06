@@ -1,7 +1,17 @@
 import Step from '../components/Step';
 import { Play } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const HowItWorks = () => {
+
+  const navigate = useNavigate();
+
+  const handleTryNow = () => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/dashboard");
+    else navigate("/signin");
+  };
+
   return (
     <section id="howitworks" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
@@ -30,7 +40,10 @@ const HowItWorks = () => {
               />
             </div>
 
-            <button className="mt-12 bg-slate-900 text-white px-8 py-4 rounded-full font-bold hover:bg-slate-800 transition-all shadow-lg active:scale-95">
+            <button
+              onClick={handleTryNow}
+              className="mt-12 bg-slate-900 text-white px-8 py-4 rounded-full font-bold hover:bg-slate-800 transition-all shadow-lg active:scale-95"
+            >
               Try it Now
             </button>
           </div>

@@ -5,9 +5,7 @@ import { signin } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +17,8 @@ const LoginForm = () => {
     });
     if (data.access_token) {
       localStorage.setItem("token", data.access_token);
-      window.location.href = "/dashboard";
+      navigate("/");
+      // window.location.href = "/dashboard";
     } else {
       alert("Invalid credentials");
     }
