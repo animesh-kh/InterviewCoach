@@ -12,10 +12,15 @@ const Hero = () => {
 
   const navigate = useNavigate();
 
+  const handleStartTrial = () => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/dashboard");
+    else navigate("/signin");
+  };
+
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
       
-      {/* Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-100/50 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-violet-100/50 blur-[120px] rounded-full" />
@@ -44,15 +49,13 @@ const Hero = () => {
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
 
-              {/* Start Free Trial Button */}
               <button
-                onClick={() => navigate("/signup")}
+                onClick={handleStartTrial}
                 className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95 flex items-center justify-center gap-2"
               >
                 Start Free Trial <ArrowRight className="w-5 h-5" />
               </button>
 
-              {/* Watch Demo Button (unchanged) */}
               <button className="w-full sm:w-auto bg-white text-slate-900 border border-slate-200 px-8 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center gap-2">
                 <Play className="w-5 h-5 fill-slate-900" /> Watch Demo
               </button>
@@ -128,9 +131,6 @@ const Hero = () => {
                 </span>
               </motion.div>
             </div>
-
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-indigo-100 rounded-full -z-10" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] border border-indigo-50 rounded-full -z-10" />
           </motion.div>
 
         </div>
