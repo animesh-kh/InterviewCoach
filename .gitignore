@@ -209,7 +209,6 @@ models/
 # Data Files (if storing test data)
 data/
 *.csv
-*.json
 *.parquet
 .DS_Store
 **/.DS_Store
