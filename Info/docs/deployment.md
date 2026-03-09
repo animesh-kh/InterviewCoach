@@ -25,7 +25,7 @@ Auto deploy on every push
 
 2. Server Configuration
 
-Runtime: Node.js (Backend)
+Runtime: FASTAPI (Backend)
 Port: process.env.PORT
 
 Environment variables:
