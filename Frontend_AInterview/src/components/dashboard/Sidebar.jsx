@@ -3,7 +3,8 @@ import {
   LayoutDashboard,
   History,
   TrendingUp,
-  Award
+  Award,
+  FileText   
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -61,6 +62,20 @@ export default function Sidebar() {
           >
             <TrendingUp className="w-5 h-5" />
             Analytics
+          </NavLink>
+
+          <NavLink
+            to="/dashboard/resume"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 rounded-lg ${
+                isActive
+                  ? "text-indigo-600 bg-indigo-50"
+                  : "text-slate-600 hover:bg-slate-50"
+              }`
+            }
+          >
+            <FileText className="w-5 h-5" />
+            Resume
           </NavLink>
         </nav>
       </div>
