@@ -55,20 +55,24 @@ Redis used for caching sessions
 Internal HTTP requests (private network)
 JSON based communication
 
-Security Measures:-
+3. Security Measures
+A. Authentication & Authorization
 
-Authentication
-JWT based authentication
+JWT-based authentication
+Role-Based Access Control (RBAC)
+Token expiration with refresh tokens
 
-Role-based access control
+B. Network Security
 
-Network Security
-HTTPS enabled by default (TLS encryption)
-Private internal service communication
-Data Security
-Password hashing (bcrypt)
-Secure environment variables
-Token expiry & refresh tokens
+HTTPS enabled 
+Internal services not publicly accessible
+Secure firewall rules applied
+
+C. Data Security
+
+Passwords hashed using bcrypt
+Sensitive credentials stored as environment variables
+Encrypted database connections
 
 II. End User Access & System Interaction:-
 
