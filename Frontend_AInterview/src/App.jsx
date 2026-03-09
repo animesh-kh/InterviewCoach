@@ -7,6 +7,7 @@ import Overview from "./pages/Overview";
 import History from "./pages/History";
 import Analytics from "./pages/Analytics";
 import ScrollToTop from "./components/ScrollToTop";
+import Resume from "./pages/Resume";
 
 export default function App() {
   return (
@@ -15,14 +16,12 @@ export default function App() {
 
       <Routes>
 
-        {/* Landing routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/features" element={<Landing />} />
         <Route path="/howitworks" element={<Landing />} />
         <Route path="/pricing" element={<Landing />} />
         <Route path="/testimonials" element={<Landing />} />
 
-        {/* Auth */}
         <Route path="/signin" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
 
@@ -38,8 +37,8 @@ export default function App() {
           <Route index element={<Overview />} />
           <Route path="history" element={<History />} />
           <Route path="analytics" element={<Analytics />} />
+          <Route path="resume" element={<Resume />} />
         </Route>
-
       </Routes>
     </>
   );
