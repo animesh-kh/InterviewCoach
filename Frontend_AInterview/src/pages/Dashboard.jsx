@@ -21,23 +21,23 @@ import {
 
 import { motion } from "motion/react";
 
-const mockInterviews = [
-  {
-    id: 1,
-    score: 85,
-    date: "Mon"
-  },
-  {
-    id: 2,
-    score: 78,
-    date: "Tue"
-  },
-  {
-    id: 3,
-    score: 92,
-    date: "Wed"
-  }
-];
+// const mockInterviews = [
+//   {
+//     id: 1,
+//     score: 85,
+//     date: "Mon"
+//   },
+//   {
+//     id: 2,
+//     score: 78,
+//     date: "Tue"
+//   },
+//   {
+//     id: 3,
+//     score: 92,
+//     date: "Wed"
+//   }
+// ];
 
 export default function Dashboard() {
   const { user } = useUser();
@@ -82,7 +82,7 @@ export default function Dashboard() {
           Welcome back, {user?.firstName} 👋
         </h1>
         <p className="text-slate-500">
-          Here’s your performance overview.
+          Here's your performance overview.
         </p>
       </div>
 
@@ -154,13 +154,3 @@ function StatCard({ title, value, icon: Icon }) {
     </motion.div>
   );
 }
-
-
-
-
-
-
-
-
-
-
