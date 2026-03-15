@@ -21,24 +21,6 @@ import {
 
 import { motion } from "motion/react";
 
-// const mockInterviews = [
-//   {
-//     id: 1,
-//     score: 85,
-//     date: "Mon"
-//   },
-//   {
-//     id: 2,
-//     score: 78,
-//     date: "Tue"
-//   },
-//   {
-//     id: 3,
-//     score: 92,
-//     date: "Wed"
-//   }
-// ];
-
 export default function Dashboard() {
   const { user } = useUser();
 
@@ -138,8 +120,6 @@ export default function Dashboard() {
     </div>
   );
 }
-
-
 
 function StatCard({ title, value, icon: Icon }) {
   return (
