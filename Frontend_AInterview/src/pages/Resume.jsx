@@ -13,27 +13,51 @@ export default function Resume() {
   }, []);
 
   const fetchResumes = async () => {
-    const data = await getMyResumes();
-    setResumes(data);
+    try {
+      const data = await getMyResumes();
+
+      // ensure resumes is always an array
+      if (Array.isArray(data)) {
+        setResumes(data);
+      } else {
+        console.error("Unexpected response:", data);
+        setResumes([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch resumes:", error);
+      setResumes([]);
+    }
   };
 
   const handleUpload = async () => {
     if (!file) return;
-    setLoading(true);
-    await uploadResume(file);
-    await fetchResumes();
-    setLoading(false);
-    setFile(null);
+
+    try {
+      setLoading(true);
+
+      await uploadResume(file);
+      await fetchResumes();
+
+      setFile(null);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleView = async (id) => {
-    const data = await getResume(id);
-    setSelectedResume(data);
+    try {
+      const data = await getResume(id);
+      setSelectedResume(data);
+    } catch (error) {
+      console.error("Failed to fetch resume:", error);
+    }
   };
 
   return (
     <div className="space-y-8">
-      
+
       {/* Page Title */}
       <div>
         <h1 className="text-3xl font-bold text-slate-800">Resume Analyzer</h1>
@@ -48,6 +72,7 @@ export default function Resume() {
           <div className="p-3 bg-indigo-50 rounded-lg">
             <UploadCloud className="text-indigo-600 w-6 h-6" />
           </div>
+
           <div>
             <h2 className="font-semibold text-slate-800">Upload Resume</h2>
             <p className="text-sm text-slate-500">
@@ -85,7 +110,7 @@ export default function Resume() {
           My Resumes
         </h2>
 
-        {resumes.length === 0 ? (
+        {!Array.isArray(resumes) || resumes.length === 0 ? (
           <div className="text-slate-500 text-sm">
             No resumes uploaded yet.
           </div>
@@ -98,8 +123,9 @@ export default function Resume() {
               >
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5 text-indigo-500" />
+
                   <span className="text-slate-700 font-medium">
-                    {resume.filename}
+                    {resume.filename || `Resume ${resume.id}`}
                   </span>
                 </div>
 
@@ -121,8 +147,9 @@ export default function Resume() {
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             Extracted Text
           </h2>
+
           <div className="bg-slate-50 p-4 rounded-lg max-h-96 overflow-y-auto text-sm text-slate-700 whitespace-pre-wrap">
-            {selectedResume.extracted_text}
+            {selectedResume.extracted_text || "No extracted text available."}
           </div>
         </div>
       )}

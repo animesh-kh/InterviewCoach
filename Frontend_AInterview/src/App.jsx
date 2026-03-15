@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
 import Landing from "./pages/Landing";
 import AuthPage from "./pages/AuthPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -8,14 +9,15 @@ import History from "./pages/History";
 import Analytics from "./pages/Analytics";
 import ScrollToTop from "./components/ScrollToTop";
 import Resume from "./pages/Resume";
+import InterviewSetup from "./pages/InterviewSetup";
+import InterviewSession from "./pages/InterviewSession";
 
 export default function App() {
   return (
-    <>
+    <ThemeProvider> {/* 👈 add this */}
       <ScrollToTop />
 
       <Routes>
-
         <Route path="/" element={<Landing />} />
         <Route path="/features" element={<Landing />} />
         <Route path="/howitworks" element={<Landing />} />
@@ -25,7 +27,6 @@ export default function App() {
         <Route path="/signin" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
 
-        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -38,8 +39,10 @@ export default function App() {
           <Route path="history" element={<History />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="resume" element={<Resume />} />
+          <Route path="interview/setup" element={<InterviewSetup />} />
+          <Route path="interview/session" element={<InterviewSession />} />
         </Route>
       </Routes>
-    </>
+    </ThemeProvider> 
   );
 }

@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useInterview } from "../context/InterviewContext";
 import { getCurrentUser } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+
+import "../styles/overview.css";
 
 import {
   Code2,
@@ -17,300 +20,294 @@ import {
   FolderGit2,
   Briefcase,
   Star,
-  UserCog
+  UserCog,
+  Search,
+  Trophy,
+  Flame,
+  ArrowRight,
+  CheckCircle2,
+  X
 } from "lucide-react";
 
-export default function Overview() {
+/* ---------------- CATEGORY DATA ---------------- */
 
-  const { interviews } = useInterview();
-  const [userName, setUserName] = useState("User");
+const CATEGORIES = [
+  {
+    label: "Technical Core",
+    accent: "#6366f1",
+    rounds: [
+      { title: "Coding Round", icon: Code2 },
+      { title: "DSA Round", icon: Binary },
+      { title: "Advanced Algorithms", icon: Cpu },
+      { title: "Debugging Round", icon: Cpu },
+      { title: "Code Optimization", icon: Cpu }
+    ]
+  },
+  {
+    label: "System Design",
+    accent: "#22d3ee",
+    rounds: [
+      { title: "System Design", icon: Network },
+      { title: "Low Level Design", icon: Layout },
+      { title: "Architecture Design", icon: Network },
+      { title: "Distributed Systems", icon: Network }
+    ]
+  },
+  {
+    label: "Computer Science",
+    accent: "#fb923c",
+    rounds: [
+      { title: "Operating Systems", icon: Cpu },
+      { title: "DBMS Round", icon: Database },
+      { title: "Computer Networks", icon: Network },
+      { title: "OOP Concepts", icon: Layout }
+    ]
+  },
+  {
+    label: "Specialized",
+    accent: "#ec4899",
+    rounds: [
+      { title: "Frontend Round", icon: Layout },
+      { title: "Backend Round", icon: Database },
+      { title: "Machine Learning", icon: BrainCircuit },
+      { title: "DevOps / SRE", icon: Settings }
+    ]
+  },
+  {
+    label: "Soft Skills",
+    accent: "#22c55e",
+    rounds: [
+      { title: "HR Round", icon: Users },
+      { title: "Behavioral Round", icon: Brain },
+      { title: "Leadership Round", icon: Briefcase },
+      { title: "Hiring Manager", icon: UserCog }
+    ]
+  },
+  {
+    label: "Professional",
+    accent: "#a855f7",
+    rounds: [
+      { title: "Bar Raiser", icon: Star },
+      { title: "Project Deep Dive", icon: FolderGit2 },
+      { title: "Product Design", icon: Layout },
+      { title: "Scalability Round", icon: Network }
+    ]
+  }
+];
 
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user?.full_name) {
-          setUserName(user.full_name);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
+const ALL_ROUNDS = CATEGORIES.flatMap(c =>
+  c.rounds.map(r => ({
+    ...r,
+    type: c.label,
+    accent: c.accent
+  }))
+);
 
-    loadUser();
-  }, []);
+/* ---------------- CARD ---------------- */
 
-  const completed = interviews.filter((i) => i.status === "completed");
-  const totalCompleted = completed.length;
+function RoundCard({ round, selected, setSelected, start }) {
 
-  const roundTypes = [
-    { title: "Coding Round", icon: Code2, bg: "bg-blue-100", text: "text-blue-600" },
-    { title: "Technical Round", icon: Cpu, bg: "bg-purple-100", text: "text-purple-600" },
-    { title: "HR Round", icon: Users, bg: "bg-emerald-100", text: "text-emerald-600" },
-    { title: "Behavioral Round", icon: Brain, bg: "bg-rose-100", text: "text-rose-600" },
-    { title: "DSA Round", icon: Binary, bg: "bg-cyan-100", text: "text-cyan-700" },
-    { title: "System Design", icon: Network, bg: "bg-indigo-100", text: "text-indigo-700" },
-    { title: "Frontend Round", icon: Layout, bg: "bg-pink-100", text: "text-pink-700" },
-    { title: "Backend Round", icon: Database, bg: "bg-amber-100", text: "text-amber-700" },
-    { title: "Machine Learning", icon: BrainCircuit, bg: "bg-violet-100", text: "text-violet-700" },
-    { title: "DevOps / SRE", icon: Settings, bg: "bg-teal-100", text: "text-teal-700" },
-    { title: "Project Deep Dive", icon: FolderGit2, bg: "bg-orange-100", text: "text-orange-700" },
-    { title: "Leadership Round", icon: Briefcase, bg: "bg-lime-100", text: "text-lime-700" },
-    { title: "Bar Raiser", icon: Star, bg: "bg-yellow-100", text: "text-yellow-700" },
-    { title: "Hiring Manager", icon: UserCog, bg: "bg-gray-100", text: "text-gray-700" }
-  ];
+  const Icon = round.icon;
 
   return (
-    <div className="space-y-12">
+    <div
+      className={`ov-card ${selected === round.title ? "selected" : ""}`}
+      style={{ "--accent": round.accent }}
+      onClick={() => setSelected(round.title)}
+    >
 
-      <div className="flex justify-between items-center">
-
-        <div>
-          <h1 className="text-3xl font-bold">
-            Welcome back, {userName} 👋
-          </h1>
-
-          <p className="text-slate-500 mt-2">
-            You've completed {totalCompleted} mock interviews.
-          </p>
+      {selected === round.title && (
+        <div className="check">
+          <CheckCircle2 size={16}/>
         </div>
+      )}
 
-        <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300">
-          <Play className="w-4 h-4 fill-current" />
-          Start New Mock
-        </button>
-
+      <div className="icon" style={{ background: `${round.accent}20` }}>
+        <Icon size={18} style={{ color: round.accent }} />
       </div>
 
-      <div>
+      <div className="title">{round.title}</div>
+      <div className="type">{round.type}</div>
 
-        <h2 className="text-xl font-bold mb-6">
-          Select Interview Round
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          {roundTypes.map((round, index) => (
-
-            <div
-              key={index}
-              className="group bg-white p-6 rounded-2xl border shadow-sm 
-              hover:shadow-[0_15px_35px_rgba(99,102,241,0.25)]
-              hover:-translate-y-2
-              transition-all duration-300 ease-in-out
-              cursor-pointer"
-            >
-
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4
-                ${round.bg}
-                group-hover:bg-indigo-600
-                transition-colors duration-300`}
-              >
-
-                <round.icon
-                  className={`w-6 h-6 ${round.text}
-                  group-hover:text-white
-                  transition-colors duration-300`}
-                />
-
-              </div>
-
-              <h3 className="font-semibold mb-4
-              group-hover:text-indigo-600
-              transition-colors duration-300">
-
-                {round.title}
-
-              </h3>
-
-              <button
-                className="w-full bg-slate-100
-                group-hover:bg-indigo-600
-                group-hover:text-white
-                text-sm py-2 rounded-lg
-                flex items-center justify-center gap-2
-                transition-all duration-300
-                hover:scale-105 hover:shadow-lg"
-              >
-
-                <Play className="w-3 h-3 fill-current" />
-                Start Session
-
-              </button>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
+      <button
+        className="start"
+        onClick={e=>{
+          e.stopPropagation();
+          start(round.title);
+        }}
+      >
+        Start Session
+        <ArrowRight size={14}/>
+      </button>
 
     </div>
   );
 }
 
+/* ---------------- MAIN ---------------- */
 
+export default function Overview() {
 
+  const { interviews } = useInterview();
+  const navigate = useNavigate();
 
+  const [userName,setUserName] = useState("User");
+  const [search,setSearch] = useState("");
+  const [tab,setTab] = useState("All");
+  const [selected,setSelected] = useState(null);
 
+  const scrollRefs = useRef({});
 
+  useEffect(()=>{
+    getCurrentUser()
+      .then(u=>{
+        if(u?.full_name) setUserName(u.full_name);
+      })
+      .catch(console.error);
+  },[]);
 
+  const completed = interviews.filter(i=>i.status==="completed").length;
 
+  const startInterview = round =>{
+    navigate(`/dashboard/interview/setup?type=${encodeURIComponent(round)}`);
+  };
 
+  const tabs = ["All",...CATEGORIES.map(c=>c.label)];
 
+  const filteredRounds = useMemo(()=>{
 
+    const q = search.toLowerCase();
 
-// import React from "react";
-// import { useInterview } from "../context/InterviewContext";
-// import { useUser } from "@clerk/clerk-react";
-// import StatCard from "../components/dashboard/StatCard";
+    return ALL_ROUNDS.filter(
+      r =>
+        (!q ||
+        r.title.toLowerCase().includes(q) ||
+        r.type.toLowerCase().includes(q))
+        &&
+        (tab==="All" || r.type===tab)
+    );
 
-// import {
-//   Code2,
-//   Cpu,
-//   Users,
-//   Brain,
-//   Play,
-//   CheckCircle2,
-//   TrendingUp,
-//   Clock,
-//   Award,
-//   Binary,
-//   Network,
-//   Layout,
-//   Database,
-//   BrainCircuit,
-//   Settings,
-//   FolderGit2,
-//   Briefcase,
-//   Star,
-//   UserCog
-// } from "lucide-react";
+  },[search,tab]);
 
-// export default function Overview() {
-//   const { user } = useUser();
-//   const { interviews } = useInterview();
+  const grouped =
+    tab==="All"
+      ? CATEGORIES.map(cat=>({
+          ...cat,
+          rounds:filteredRounds.filter(r=>r.type===cat.label)
+        })).filter(g=>g.rounds.length>0)
+      :[
+          {
+            ...CATEGORIES.find(c=>c.label===tab),
+            rounds:filteredRounds
+          }
+        ];
 
-//   const completed = interviews.filter(
-//     (i) => i.status === "completed"
-//   );
+  return (
 
+    <div className="ov">
 
-//   const totalCompleted = completed.length;
+      <div className="hero">
 
-//   const averageScore =
-//     totalCompleted > 0
-//       ? Math.round(
-//           completed.reduce((sum, i) => sum + i.score, 0) /
-//             totalCompleted
-//         )
-//       : 0;
+        <div>
+          <h1>Hello {userName.split(" ")[0]} 👋</h1>
+          <p>Select an interview round and start practicing.</p>
+        </div>
 
-//   const totalMinutes = completed.reduce(
-//     (sum, i) => sum + (i.duration || 0),
-//     0
-//   );
+        <div className="stats">
+          <div><Trophy size={18}/> {completed} Completed</div>
+          <div><Flame size={18}/> {ALL_ROUNDS.length} Rounds</div>
+        </div>
 
-//   const totalHours = (totalMinutes / 60).toFixed(1);
+      </div>
 
-//   const improvementRate =
-//     totalCompleted > 1
-//       ? completed[totalCompleted - 1].score -
-//         completed[0].score
-//       : 0;
+      <div className="controls">
 
+        <div className="search">
+          <Search size={16}/>
+          <input
+            placeholder="Search interview rounds..."
+            value={search}
+            onChange={e=>setSearch(e.target.value)}
+          />
+        </div>
 
-//   const roundTypes = [
-//     { title: "Coding Round", icon: Code2, bg: "bg-blue-100", text: "text-blue-600" },
-//     { title: "Technical Round", icon: Cpu, bg: "bg-purple-100", text: "text-purple-600" },
-//     { title: "HR Round", icon: Users, bg: "bg-emerald-100", text: "text-emerald-600" },
-//     { title: "Behavioral Round", icon: Brain, bg: "bg-rose-100", text: "text-rose-600" },
-//     { title: "DSA Round", icon: Binary, bg: "bg-cyan-100", text: "text-cyan-700" },
-//     { title: "System Design", icon: Network, bg: "bg-indigo-100", text: "text-indigo-700" },
-//     { title: "Frontend Round", icon: Layout, bg: "bg-pink-100", text: "text-pink-700" },
-//     { title: "Backend Round", icon: Database, bg: "bg-amber-100", text: "text-amber-700" },
-//     { title: "Machine Learning", icon: BrainCircuit, bg: "bg-violet-100", text: "text-violet-700" },
-//     { title: "DevOps / SRE", icon: Settings, bg: "bg-teal-100", text: "text-teal-700" },
-//     { title: "Project Deep Dive", icon: FolderGit2, bg: "bg-orange-100", text: "text-orange-700" },
-//     { title: "Leadership Round", icon: Briefcase, bg: "bg-lime-100", text: "text-lime-700" },
-//     { title: "Bar Raiser", icon: Star, bg: "bg-yellow-100", text: "text-yellow-700" },
-//     { title: "Hiring Manager", icon: UserCog, bg: "bg-gray-100", text: "text-gray-700" }
-//   ];
+        <div className="tabs">
+          {tabs.map(t=>(
+            <button
+              key={t}
+              className={tab===t ? "active":""}
+              onClick={()=>setTab(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
 
-//   return (
-//     <div className="space-y-12">
+      </div>
 
-//       <div className="flex justify-between items-center">
-//         <div>
-//           <h1 className="text-3xl font-bold">
-//             Welcome back, {user?.firstName || "User"} 👋
-//           </h1>
-//           <p className="text-slate-500 mt-2">
-//             You've completed {totalCompleted} mock interviews.
-//           </p>
-//         </div>
+      {grouped.map(cat=>(
 
-//         <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300">
-//           <Play className="w-4 h-4 fill-current" />
-//           Start New Mock
-//         </button>
-//       </div>
+        <div key={cat.label}>
 
-//       <div>
-//         <h2 className="text-xl font-bold mb-6">
-//           Select Interview Round
-//         </h2>
+          <h3 className="section">{cat.label}</h3>
 
-//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {roundTypes.map((round, index) => (
-//             <div
-//               key={index}
-//               className="group bg-white p-6 rounded-2xl border shadow-sm 
-//                          hover:shadow-[0_15px_35px_rgba(99,102,241,0.25)] 
-//                          hover:-translate-y-2 
-//                          transition-all duration-300 ease-in-out 
-//                          cursor-pointer"
-//             >
-//               {/* ICON */}
-//               <div
-//                 className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 
-//                             ${round.bg} 
-//                             group-hover:bg-indigo-600 
-//                             transition-colors duration-300`}
-//               >
-//                 <round.icon
-//                   className={`w-6 h-6 ${round.text} 
-//                               group-hover:text-white 
-//                               transition-colors duration-300`}
-//                 />
-//               </div>
+          <div className="row-wrapper">
 
-//               {/* TITLE */}
-//               <h3 className="font-semibold mb-4 
-//                              group-hover:text-indigo-600 
-//                              transition-colors duration-300">
-//                 {round.title}
-//               </h3>
+            <button
+              className="scroll-btn left"
+              onClick={()=>scrollRefs.current[cat.label].scrollBy({left:-400,behavior:"smooth"})}
+            >
+              ◀
+            </button>
 
-//               {/* BUTTON */}
-//               <button
-//                 className="w-full bg-slate-100 
-//                            group-hover:bg-indigo-600 
-//                            group-hover:text-white 
-//                            text-sm py-2 rounded-lg 
-//                            flex items-center justify-center gap-2 
-//                            transition-all duration-300 
-//                            hover:scale-105 hover:shadow-lg"
-//               >
-//                 <Play className="w-3 h-3 fill-current" />
-//                 Start Session
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//       </div>     
-//     </div>
-//   );
-// }
+            <div
+              ref={el=>scrollRefs.current[cat.label]=el}
+              className="scroll-container"
+            >
+
+              {cat.rounds.map(round=>(
+                <RoundCard
+                  key={round.title}
+                  round={round}
+                  selected={selected}
+                  setSelected={setSelected}
+                  start={startInterview}
+                />
+              ))}
+
+            </div>
+
+            <button
+              className="scroll-btn right"
+              onClick={()=>scrollRefs.current[cat.label].scrollBy({left:400,behavior:"smooth"})}
+            >
+              ▶
+            </button>
+
+          </div>
+
+        </div>
+
+      ))}
+
+      {selected && (
+
+        <div className="launcher">
+
+          <span>{selected}</span>
+
+          <button onClick={()=>startInterview(selected)}>
+            <Play size={14}/> Launch
+          </button>
+
+          <button onClick={()=>setSelected(null)}>
+            <X size={14}/>
+          </button>
+
+        </div>
+
+      )}
+
+    </div>
+  );
+}

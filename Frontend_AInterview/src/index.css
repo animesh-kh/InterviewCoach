@@ -1,25 +1,116 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", sans-serif;
 }
 
+/* ============================= */
+/* THEME VARIABLES */
+/* ============================= */
+
+.light {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --text: #0f172a;
+  --border: #e5e7eb;
+}
+
+.dark {
+  --bg: #0b1220;
+  --surface: #111827;
+  --card: #1f2937;
+  --text: #f9fafb;
+  --border: #374151;
+}
+
+/* ============================= */
+/* BASE STYLES */
+/* ============================= */
+
 @layer base {
   body {
-    @apply font-sans bg-slate-50 text-slate-900 antialiased;
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* ============================= */
+/* UTILITY COMPONENTS */
+/* ============================= */
+
 .glass {
-  @apply bg-white/70 backdrop-blur-md border border-white/20;
+  @apply backdrop-blur-md border;
+  background: var(--surface);
+  border-color: var(--border);
 }
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600;
 }
 
-html {
-  scroll-behavior: smooth;
+/* ============================= */
+/* APP LAYOUT */
+/* ============================= */
+
+.page-container {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ============================= */
+/* CARD */
+/* ============================= */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+/* ============================= */
+/* NAVBAR */
+/* ============================= */
+
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================= */
+/* BUTTON */
+/* ============================= */
+
+.theme-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+  opacity: 0.8;
 }

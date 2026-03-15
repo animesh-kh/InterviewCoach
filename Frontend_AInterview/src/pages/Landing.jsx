@@ -11,9 +11,7 @@ import CTA from "../sections/CTA";
 import Footer from "../sections/Footer";
 
 export default function Landing() {
-
   const location = useLocation();
-
   useEffect(() => {
     const section = location.pathname.replace("/", "");
     if (!section) return;
