@@ -6,8 +6,6 @@ import {
   Award,
 } from "lucide-react";
 
-/* ================= STAT CARD COMPONENT ================= */
-
 function StatCard({ title, value, icon: Icon, color }) {
   return (
     <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
@@ -23,17 +21,12 @@ function StatCard({ title, value, icon: Icon, color }) {
   );
 }
 
-/* ================= HISTORY PAGE ================= */
-
 export default function History() {
   const { interviews } = useInterview();
-
   const completed = interviews
     .filter((i) => i.status === "completed")
     .sort((a, b) => new Date(b.date) - new Date(a.date));
-
   const totalCompleted = completed.length;
-
   const averageScore =
     totalCompleted > 0
       ? Math.round(
@@ -41,7 +34,6 @@ export default function History() {
             totalCompleted
         )
       : 0;
-
   const totalHours =
     totalCompleted > 0
       ? (
@@ -49,12 +41,10 @@ export default function History() {
           60
         ).toFixed(1)
       : 0;
-
   const improvementRate =
     totalCompleted >= 2
       ? completed[0].score - completed[totalCompleted - 1].score
       : 0;
-
   if (totalCompleted === 0) {
     return (
       <div className="text-center py-20">
