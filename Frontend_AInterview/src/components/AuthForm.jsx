@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 // import { SignIn, SignUp } from "@clerk/clerk-react";
 // import { motion, AnimatePresence } from "motion/react";
 // import { ArrowRight, Zap } from "lucide-react";
