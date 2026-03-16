@@ -85,8 +85,7 @@ Menu-based UI helps users navigate different sections easily.
 Direct manipulation allows users to interact with forms and buttons visually.
 These interfaces improve usability and user experience.
 
-II. Implementation of UI Code Components and User Interaction (10 Marks)
-
+II. Implementation of UI Code Components and User Interaction 
 The user interface was implemented using:
 React.js
 HTML
