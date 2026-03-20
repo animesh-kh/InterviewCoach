@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useInterview } from "../context/InterviewContext";
 import { getCurrentUser } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import ThemeToggle from "../context/ThemeToggle";
 
 import "../styles/overview.css";
 
@@ -28,8 +29,6 @@ import {
   CheckCircle2,
   X
 } from "lucide-react";
-
-/* ---------------- CATEGORY DATA ---------------- */
 
 const CATEGORIES = [
   {
@@ -103,10 +102,7 @@ const ALL_ROUNDS = CATEGORIES.flatMap(c =>
   }))
 );
 
-/* ---------------- CARD ---------------- */
-
 function RoundCard({ round, selected, setSelected, start }) {
-
   const Icon = round.icon;
 
   return (
@@ -115,10 +111,9 @@ function RoundCard({ round, selected, setSelected, start }) {
       style={{ "--accent": round.accent }}
       onClick={() => setSelected(round.title)}
     >
-
       {selected === round.title && (
         <div className="check">
-          <CheckCircle2 size={16}/>
+          <CheckCircle2 size={16} />
         </div>
       )}
 
@@ -131,183 +126,192 @@ function RoundCard({ round, selected, setSelected, start }) {
 
       <button
         className="start"
-        onClick={e=>{
+        onClick={e => {
           e.stopPropagation();
           start(round.title);
         }}
       >
         Start Session
-        <ArrowRight size={14}/>
+        <ArrowRight size={14} />
       </button>
-
     </div>
   );
 }
 
-/* ---------------- MAIN ---------------- */
-
 export default function Overview() {
-
   const { interviews } = useInterview();
   const navigate = useNavigate();
 
-  const [userName,setUserName] = useState("User");
-  const [search,setSearch] = useState("");
-  const [tab,setTab] = useState("All");
-  const [selected,setSelected] = useState(null);
+  const [userName, setUserName] = useState("User");
+  const [search, setSearch] = useState("");
+  const [tab, setTab] = useState("All");
+  const [selected, setSelected] = useState(null);
 
   const scrollRefs = useRef({});
 
-  useEffect(()=>{
+  useEffect(() => {
     getCurrentUser()
-      .then(u=>{
-        if(u?.full_name) setUserName(u.full_name);
+      .then(u => {
+        if (u?.full_name) setUserName(u.full_name);
       })
       .catch(console.error);
-  },[]);
+  }, []);
 
-  const completed = interviews.filter(i=>i.status==="completed").length;
+  const completed = interviews.filter(i => i.status === "completed").length;
 
-  const startInterview = round =>{
+  const startInterview = round => {
     navigate(`/dashboard/interview/setup?type=${encodeURIComponent(round)}`);
   };
 
-  const tabs = ["All",...CATEGORIES.map(c=>c.label)];
+  const tabs = ["All", ...CATEGORIES.map(c => c.label)];
 
-  const filteredRounds = useMemo(()=>{
-
+  const filteredRounds = useMemo(() => {
     const q = search.toLowerCase();
 
     return ALL_ROUNDS.filter(
       r =>
         (!q ||
-        r.title.toLowerCase().includes(q) ||
-        r.type.toLowerCase().includes(q))
-        &&
-        (tab==="All" || r.type===tab)
+          r.title.toLowerCase().includes(q) ||
+          r.type.toLowerCase().includes(q)) &&
+        (tab === "All" || r.type === tab)
     );
-
-  },[search,tab]);
+  }, [search, tab]);
 
   const grouped =
-    tab==="All"
-      ? CATEGORIES.map(cat=>({
+    tab === "All"
+      ? CATEGORIES.map(cat => ({
           ...cat,
-          rounds:filteredRounds.filter(r=>r.type===cat.label)
-        })).filter(g=>g.rounds.length>0)
-      :[
+          rounds: filteredRounds.filter(r => r.type === cat.label)
+        })).filter(g => g.rounds.length > 0)
+      : [
           {
-            ...CATEGORIES.find(c=>c.label===tab),
-            rounds:filteredRounds
+            ...CATEGORIES.find(c => c.label === tab),
+            rounds: filteredRounds
           }
         ];
 
   return (
-
     <div className="ov">
-
       <div className="hero">
-
         <div>
           <h1>Hello {userName.split(" ")[0]} 👋</h1>
           <p>Select an interview round and start practicing.</p>
         </div>
 
-        <div className="stats">
-          <div><Trophy size={18}/> {completed} Completed</div>
-          <div><Flame size={18}/> {ALL_ROUNDS.length} Rounds</div>
+        <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div className="stats">
+            <div>
+              <Trophy size={18} /> {completed} Completed
+            </div>
+            <div>
+              <Flame size={18} /> {ALL_ROUNDS.length} Rounds
+            </div>
+          </div>
         </div>
-
       </div>
 
       <div className="controls">
-
         <div className="search">
-          <Search size={16}/>
+          <Search size={16} />
           <input
             placeholder="Search interview rounds..."
             value={search}
-            onChange={e=>setSearch(e.target.value)}
+            onChange={e => setSearch(e.target.value)}
           />
         </div>
 
         <div className="tabs">
-          {tabs.map(t=>(
+          {tabs.map(t => (
             <button
               key={t}
-              className={tab===t ? "active":""}
-              onClick={()=>setTab(t)}
+              className={tab === t ? "active" : ""}
+              onClick={() => setTab(t)}
             >
               {t}
             </button>
           ))}
         </div>
-
       </div>
 
-      {grouped.map(cat=>(
+      {filteredRounds.length === 0 && search ? (
+        <div className="no-results">
+          <p>
+            No results found for "<strong>{search}</strong>"
+          </p>
+        </div>
+      ) : (
+        grouped.map(cat => (
+          <div key={cat.label}>
+            <h3 className="section">{cat.label}</h3>
 
-        <div key={cat.label}>
+            <div className="row-wrapper">
+              <button
+                className="scroll-btn left"
+                onClick={() =>
+                  scrollRefs.current[cat.label].scrollBy({
+                    left: -400,
+                    behavior: "smooth"
+                  })
+                }
+              >
+                ◀
+              </button>
 
-          <h3 className="section">{cat.label}</h3>
+              <div
+                ref={el => (scrollRefs.current[cat.label] = el)}
+                className="scroll-container"
+              >
+                {cat.rounds.map(round => (
+                  <RoundCard
+                    key={round.title}
+                    round={round}
+                    selected={selected}
+                    setSelected={setSelected}
+                    start={startInterview}
+                  />
+                ))}
+              </div>
 
-          <div className="row-wrapper">
-
-            <button
-              className="scroll-btn left"
-              onClick={()=>scrollRefs.current[cat.label].scrollBy({left:-400,behavior:"smooth"})}
-            >
-              ◀
-            </button>
-
-            <div
-              ref={el=>scrollRefs.current[cat.label]=el}
-              className="scroll-container"
-            >
-
-              {cat.rounds.map(round=>(
-                <RoundCard
-                  key={round.title}
-                  round={round}
-                  selected={selected}
-                  setSelected={setSelected}
-                  start={startInterview}
-                />
-              ))}
-
+              <button
+                className="scroll-btn right"
+                onClick={() =>
+                  scrollRefs.current[cat.label].scrollBy({
+                    left: 400,
+                    behavior: "smooth"
+                  })
+                }
+              >
+                ▶
+              </button>
             </div>
-
-            <button
-              className="scroll-btn right"
-              onClick={()=>scrollRefs.current[cat.label].scrollBy({left:400,behavior:"smooth"})}
-            >
-              ▶
-            </button>
-
           </div>
-
-        </div>
-
-      ))}
-
-      {selected && (
-
-        <div className="launcher">
-
-          <span>{selected}</span>
-
-          <button onClick={()=>startInterview(selected)}>
-            <Play size={14}/> Launch
-          </button>
-
-          <button onClick={()=>setSelected(null)}>
-            <X size={14}/>
-          </button>
-
-        </div>
-
+        ))
       )}
 
+      {selected && (
+        <div className="launcher">
+          <div className="launcher-left">
+            <span className="dot"></span>
+            <span className="text">{selected}</span>
+          </div>
+
+          <div className="launcher-actions">
+            <button
+              className="launch-btn"
+              onClick={() => startInterview(selected)}
+            >
+              <Play size={14} /> Start Session
+            </button>
+
+            <button
+              className="close-btn"
+              onClick={() => setSelected(null)}
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -16,11 +16,11 @@ export default function Resume() {
     try {
       const data = await getMyResumes();
 
-      // ensure resumes is always an array
+      console.log("RESUMES:", data); // debug
+
       if (Array.isArray(data)) {
         setResumes(data);
       } else {
-        console.error("Unexpected response:", data);
         setResumes([]);
       }
     } catch (error) {
@@ -35,7 +35,23 @@ export default function Resume() {
     try {
       setLoading(true);
 
-      await uploadResume(file);
+      const data = await uploadResume(file);
+
+      console.log("UPLOAD RESPONSE:", data);
+
+      // ✅ SHOW IMMEDIATELY (IMPORTANT)
+      setSelectedResume(data);
+
+      // ✅ OPTIONAL: update list instantly
+      setResumes((prev) => [
+        {
+          id: Date.now(),
+          resume_text: data.resume_text,
+        },
+        ...prev,
+      ]);
+
+      // still try fetching real data
       await fetchResumes();
 
       setFile(null);
@@ -49,6 +65,7 @@ export default function Resume() {
   const handleView = async (id) => {
     try {
       const data = await getResume(id);
+      console.log("VIEW RESPONSE:", data);
       setSelectedResume(data);
     } catch (error) {
       console.error("Failed to fetch resume:", error);
@@ -145,11 +162,13 @@ export default function Resume() {
       {selectedResume && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
-            Extracted Text
+            Extracted Resume Text
           </h2>
 
           <div className="bg-slate-50 p-4 rounded-lg max-h-96 overflow-y-auto text-sm text-slate-700 whitespace-pre-wrap">
-            {selectedResume.extracted_text || "No extracted text available."}
+            {selectedResume.resume_text ||
+              selectedResume.extracted_text ||
+              "No extracted text available."}
           </div>
         </div>
       )}
