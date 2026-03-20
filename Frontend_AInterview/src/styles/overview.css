@@ -1,31 +1,117 @@
-.ov{
-  min-height:100vh;
-  background:#07080f;
-  color:white;
-  padding:40px;
+/* =========================
+   THEME SYSTEM
+========================= */
+
+:root{
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --card: #ffffff;
+  --secondary: #e2e8f0;
+  --muted: #64748b;
+  --accent: #6366f1;
 }
 
-/* HERO */
+.dark{
+  --bg: #0b0f19;
+  --text: #e2e8f0;
+  --card: #111827;
+  --secondary: #1f2937;
+  --muted: #9ca3af;
+  --accent: #6366f1;
+}
+
+/* =========================
+   BASE
+========================= */
+
+.ov{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  padding:40px;
+  transition:0.3s;
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
   display:flex;
   justify-content:space-between;
-  margin-bottom:40px;
+  align-items:center;
+  margin-bottom:30px;
+  gap:20px;
 }
 
 .hero h1{
-  font-size:36px;
+  font-size:34px;
+  font-weight:600;
 }
 
+/* =========================
+   THEME TOGGLE (FIXED)
+========================= */
+
+.theme-toggle{
+  display:flex;
+  background:var(--secondary);
+  padding:4px;
+  border-radius:999px;
+  gap:4px;
+}
+
+.theme-toggle button{
+  border:none;
+  background:none;
+  color:var(--muted);
+  padding:6px 12px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+.theme-toggle button.active{
+  background:var(--accent);
+  color:white;
+}
+
+.theme-toggle button svg{
+  display:block;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.hero .stats{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.hero .stats div{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* =========================
+   SEARCH
+========================= */
 
 .controls{
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .search{
   display:flex;
   align-items:center;
-  background:#111428;
+  background:var(--secondary);
   padding:10px 15px;
   border-radius:10px;
   gap:10px;
@@ -35,35 +121,52 @@
 .search input{
   background:none;
   border:none;
-  color:white;
+  color:var(--text);
   outline:none;
 }
+
+/* =========================
+   TABS
+========================= */
 
 .tabs{
   margin-top:12px;
   display:flex;
   gap:10px;
+  flex-wrap:wrap;
 }
 
 .tabs button{
-  background:#1a1f3a;
+  background:var(--secondary);
   border:none;
-  color:#aaa;
+  color:var(--muted);
   padding:6px 14px;
   border-radius:6px;
+  cursor:pointer;
+}
+
+.tabs button:hover{
+  color:var(--text);
 }
 
 .tabs .active{
-  background:#6366f1;
+  background:var(--accent);
   color:white;
 }
 
-/* ROWS */
+/* =========================
+   SECTION
+========================= */
 
 .section{
-  font-size:22px;
-  margin-top:35px;
+  font-size:20px;
+  font-weight:600;
+  margin-top:30px;
 }
+
+/* =========================
+   SCROLL
+========================= */
 
 .row-wrapper{
   position:relative;
@@ -71,110 +174,168 @@
 
 .scroll-container{
   display:flex;
-  gap:28px;
+  gap:24px;
   overflow-x:auto;
   padding:20px 40px;
-  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
 }
 
 .scroll-container::-webkit-scrollbar{
   display:none;
 }
 
-/* NETFLIX ARROWS */
-
 .scroll-btn{
   position:absolute;
-  top:45%;
+  top:50%;
   transform:translateY(-50%);
-  background:rgba(0,0,0,0.7);
+  background:var(--secondary);
   border:none;
-  color:white;
-  width:40px;
-  height:90px;
+  color:var(--text);
+  width:36px;
+  height:80px;
   cursor:pointer;
-  z-index:10;
+  opacity:0.7;
+}
+
+.scroll-btn:hover{
+  opacity:1;
 }
 
 .scroll-btn.left{ left:0; }
 .scroll-btn.right{ right:0; }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 
 .ov-card{
-  min-width:260px;
-  background:#0f1327;
-  padding:24px;
-  border-radius:16px;
-  transition:all .35s ease;
-  position:relative;
+  min-width:250px;
+  background:var(--card);
+  padding:22px;
+  border-radius:14px;
+  transition:0.3s;
   border:1px solid transparent;
 }
 
-/* HOVER LIGHT EFFECT */
-
 .ov-card:hover{
-  transform:translateY(-10px) scale(1.04);
+  transform:translateY(-6px);
   border:1px solid var(--accent);
-  box-shadow:0 0 25px var(--accent);
+  box-shadow:0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* ICON */
-
 .icon{
-  width:44px;
-  height:44px;
+  width:42px;
+  height:42px;
   border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  margin-bottom:16px;
+  margin-bottom:14px;
+  background:var(--secondary);
 }
 
 .title{
-  font-size:18px;
+  font-size:17px;
   font-weight:600;
 }
 
 .type{
   font-size:13px;
-  color:#aaa;
-  margin-bottom:18px;
+  color:var(--muted);
+  margin-bottom:16px;
 }
-
-/* BUTTON */
 
 .start{
   width:100%;
-  background:#1f2448;
+  background:var(--secondary);
   padding:10px;
   border:none;
   border-radius:8px;
-  color:white;
+  color:var(--text);
   display:flex;
   justify-content:space-between;
+  cursor:pointer;
 }
 
 .start:hover{
-  background:#6366f1;
+  background:var(--accent);
+  color:white;
 }
-
-/* SELECTED */
 
 .selected{
   outline:2px solid var(--accent);
 }
 
-/* FLOAT BUTTON */
+/* =========================
+   LAUNCHER (IMPROVED)
+========================= */
 
 .launcher{
   position:fixed;
-  bottom:30px;
+  bottom:25px;
   left:50%;
   transform:translateX(-50%);
-  background:#111428;
-  padding:12px 20px;
-  border-radius:10px;
+  background:var(--card);
+  padding:12px 16px;
+  border-radius:14px;
   display:flex;
-  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  min-width:320px;
+  border:1px solid var(--secondary);
+  box-shadow:0 8px 30px rgba(0,0,0,0.15);
+}
+
+.launcher-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.text{
+  font-weight:500;
+}
+
+.launcher-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.launch-btn{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+}
+
+.close-btn{
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.no-results{
+  margin-top:40px;
+  text-align:center;
+  font-size:16px;
+  color:var(--muted);
 }
