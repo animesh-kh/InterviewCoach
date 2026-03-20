@@ -15,9 +15,7 @@ export default function Resume() {
   const fetchResumes = async () => {
     try {
       const data = await getMyResumes();
-
-      console.log("RESUMES:", data); // debug
-
+      console.log("RESUMES:", data); 
       if (Array.isArray(data)) {
         setResumes(data);
       } else {
@@ -31,18 +29,11 @@ export default function Resume() {
 
   const handleUpload = async () => {
     if (!file) return;
-
     try {
       setLoading(true);
-
       const data = await uploadResume(file);
-
       console.log("UPLOAD RESPONSE:", data);
-
-      // ✅ SHOW IMMEDIATELY (IMPORTANT)
       setSelectedResume(data);
-
-      // ✅ OPTIONAL: update list instantly
       setResumes((prev) => [
         {
           id: Date.now(),
@@ -50,10 +41,7 @@ export default function Resume() {
         },
         ...prev,
       ]);
-
-      // still try fetching real data
       await fetchResumes();
-
       setFile(null);
     } catch (error) {
       console.error("Upload failed:", error);
@@ -74,15 +62,12 @@ export default function Resume() {
 
   return (
     <div className="space-y-8">
-
-      {/* Page Title */}
-      <div>
+     <div>
         <h1 className="text-3xl font-bold text-slate-800">Resume Analyzer</h1>
         <p className="text-slate-500 mt-1">
           Upload your resume and let AI extract key details.
         </p>
       </div>
-
       {/* Upload Card */}
       <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
         <div className="flex items-center gap-4">
