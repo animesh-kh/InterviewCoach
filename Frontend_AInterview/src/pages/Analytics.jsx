@@ -57,7 +57,7 @@ export default function Analytics() {
       </div>
 
       {/* Chart */}
-      <div className="bg-white p-6 rounded-2xl border shadow-sm h-[350px]">
+      <div className="bg-white p-6 rounded-2xl border shadow-sm h-350px">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <XAxis dataKey="name" />

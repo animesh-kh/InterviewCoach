@@ -1,70 +1,45 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "../components/dashboard/Sidebar";
-import { getCurrentUser } from "../utils/api";
 import { useTheme } from "../context/ThemeContext";
-import ThemeToggle from "../context/ThemeToggle";
-import { ArrowLeft } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function DashboardLayout() {
-  const navigate = useNavigate();
-  const [userName, setUserName] = useState("User");
   const { isDark } = useTheme();
-
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user?.full_name) {
-          setUserName(user.full_name);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadUser();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/", { replace: true });
-  };
-
-  const goBack = () => {
-    navigate(-1);
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className={`dashboard-layout min-h-screen flex ${isDark ? "dark" : ""}`}>
-      <Sidebar />
+    <div className={isDark ? "dark" : ""}>
+      <div className="dashboard-layout min-h-screen overflow-x-hidden">
 
-      <main className="flex-1 overflow-y-auto relative">
+        <Sidebar open={open} onClose={() => setOpen(false)} />
 
-        <div className="flex justify-end gap-4 p-6 items-center">
+        {open && (
+          <div
+            className="fixed inset-0 z-20 bg-black/30"
+            onClick={() => setOpen(false)}
+          />
+        )}
 
-          <ThemeToggle />
+        <main className="min-h-screen flex flex-col">
+          <header className="navbar sticky top-0 z-10 flex items-center px-4 lg:px-6 py-3 shadow-sm">
+            <button
+              onClick={() => setOpen(!open)}
+              className="p-2 rounded-lg transition-all duration-150
+                         text-slate-500 hover:text-slate-900 hover:bg-slate-100
+                         dark:text-white/40 dark:hover:text-white dark:hover:bg-white/6"
+              aria-label={open ? "Close sidebar" : "Open sidebar"}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </header>
 
-          <button
-            onClick={goBack}
-            className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white text-slate-800 px-4 py-2 rounded-lg flex items-center gap-2"
-          >
-            <ArrowLeft size={16}/> Back
-          </button>
+          <div className="flex-1 w-full max-w-7xl mx-auto px-4 lg:px-8 py-0">
+            <Outlet />
+          </div>
+        </main>
 
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-          >
-            Logout
-          </button>
-
-        </div>
-
-        <div className="px-8 pb-8 max-w-7xl mx-auto">
-          <Outlet />
-        </div>
-
-      </main>
+      </div>
     </div>
   );
 }
