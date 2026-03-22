@@ -101,8 +101,8 @@ export default function Dashboard() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search interview rounds..."
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm
-                       bg-white dark:bg-white/[0.05]
-                       border border-slate-200 dark:border-white/[0.08]
+                       bg-white dark:bg-white/5
+                       border border-slate-200 dark:border-white/8
                        text-slate-800 dark:text-white/80
                        placeholder:text-slate-400 dark:placeholder:text-white/25
                        focus:outline-none focus:ring-2 focus:ring-indigo-500/40
@@ -140,8 +140,8 @@ export default function Dashboard() {
               <div
                 key={title}
                 className="flex flex-col gap-4 p-5 rounded-2xl
-                           bg-white dark:bg-white/[0.04]
-                           border border-slate-200 dark:border-white/[0.07]
+                           bg-white dark:bg-white/4
+                           border border-slate-200 dark:border-white/7
                            hover:border-indigo-400/40 dark:hover:border-indigo-500/30
                            hover:shadow-md hover:shadow-indigo-500/5
                            transition-all duration-200 cursor-pointer group"
@@ -165,8 +165,8 @@ export default function Dashboard() {
                 <button
                   className="mt-auto flex items-center justify-between w-full
                              px-4 py-2.5 rounded-xl text-sm font-medium
-                             bg-slate-50 dark:bg-white/[0.04]
-                             border border-slate-200 dark:border-white/[0.08]
+                             bg-slate-50 dark:bg-white/4
+                             border border-slate-200 dark:border-white/8
                              text-slate-600 dark:text-white/50
                              hover:bg-indigo-50 dark:hover:bg-indigo-500/10
                              hover:border-indigo-300 dark:hover:border-indigo-500/30
