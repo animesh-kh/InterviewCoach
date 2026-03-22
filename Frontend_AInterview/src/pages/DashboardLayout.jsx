@@ -27,7 +27,7 @@ export default function DashboardLayout() {
               onClick={() => setOpen(!open)}
               className="p-2 rounded-lg transition-all duration-150
                          text-slate-500 hover:text-slate-900 hover:bg-slate-100
-                         dark:text-white/40 dark:hover:text-white dark:hover:bg-white/[0.06]"
+                         dark:text-white/40 dark:hover:text-white dark:hover:bg-white/6"
               aria-label={open ? "Close sidebar" : "Open sidebar"}
             >
               {open ? <X size={20} /> : <Menu size={20} />}
