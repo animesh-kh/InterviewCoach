@@ -9,25 +9,19 @@ import SignupForm from "../components/auth/SignupForm";
 import ForgotPassword from "../components/auth/ForgotPassword";
 
 export default function AuthPage() {
-
   const navigate = useNavigate();
   const location = useLocation();
-
   const [isLogin, setIsLogin] = useState(location.pathname === "/signin");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isResetSent, setIsResetSent] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleAuthSubmit = async (e) => {
-
     e.preventDefault();
     setIsLoading(true);
-
     try {
       const endpoint = isLogin
         ? "http://127.0.0.1:8000/auth/signin"
@@ -83,7 +77,6 @@ export default function AuthPage() {
     setIsLoading(false);
   };
   return (
-
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -101,22 +94,16 @@ export default function AuthPage() {
           <p className="text-slate-500">
             Master your next interview with AI
           </p>
-
         </div>
-
         <div className="bg-white rounded-3xl shadow-xl border border-slate-100">
-
           <div className="p-8">
-
             {!isForgotPassword && (
               <AuthTabs
                 isLogin={isLogin}
                 setIsLogin={setIsLogin}
               />
             )}
-
             {isForgotPassword ? (
-
               <ForgotPassword
                 email={email}
                 setEmail={setEmail}
@@ -126,9 +113,7 @@ export default function AuthPage() {
                 setIsForgotPassword={setIsForgotPassword}
                 setIsResetSent={setIsResetSent}
               />
-
             ) : isLogin ? (
-
               <LoginForm
                 email={email}
                 setEmail={setEmail}
@@ -140,9 +125,7 @@ export default function AuthPage() {
                 setIsForgotPassword={setIsForgotPassword}
                 isLoading={isLoading}
               />
-
             ) : (
-
               <SignupForm
                 name={name}
                 setName={setName}
@@ -153,17 +136,11 @@ export default function AuthPage() {
                 handleAuthSubmit={handleAuthSubmit}
                 isLoading={isLoading}
               />
-
             )}
-
           </div>
-
         </div>
-
       </motion.div>
-
     </div>
-
   );
 }
 
