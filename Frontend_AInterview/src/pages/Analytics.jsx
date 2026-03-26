@@ -10,7 +10,6 @@ import {
 
 export default function Analytics() {
   const { interviews } = useInterview();
-
   const completed = interviews
     .filter((i) => i.status === "completed")
     .sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -29,15 +28,12 @@ export default function Analytics() {
   }
 
   const total = completed.length;
-
   const avgScore = Math.round(
     completed.reduce((sum, i) => sum + i.score, 0) / total
   );
-
   const highestScore = Math.max(
     ...completed.map((i) => i.score)
   );
-
   const chartData = completed.map((i, index) => ({
     name: `#${index + 1}`,
     score: i.score
@@ -48,15 +44,11 @@ export default function Analytics() {
       <h1 className="text-3xl font-bold">
         Performance Analytics
       </h1>
-
-      {/* Stats */}
       <div className="grid md:grid-cols-3 gap-6">
         <StatCard title="Total Interviews" value={total} />
         <StatCard title="Average Score" value={`${avgScore}%`} />
         <StatCard title="Highest Score" value={`${highestScore}%`} />
       </div>
-
-      {/* Chart */}
       <div className="bg-white p-6 rounded-2xl border shadow-sm h-350px">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
