@@ -82,7 +82,6 @@ const ALL_ROUNDS = CATEGORIES.flatMap(c =>
 function RoundCard({ round, selected, setSelected, start }) {
   const Icon = round.icon;
   const isSelected = selected === round.title;
-
   return (
     <div
       className={`ov-card ${isSelected ? "selected" : ""}`}
@@ -94,14 +93,11 @@ function RoundCard({ round, selected, setSelected, start }) {
           <CheckCircle2 size={16} />
         </div>
       )}
-
       <div className="icon" style={{ background: `${round.accent}20` }}>
         <Icon size={18} style={{ color: round.accent }} />
       </div>
-
       <div className="title">{round.title}</div>
       <div className="type">{round.type}</div>
-
       <button
         className="start"
         onClick={e => { e.stopPropagation(); start(round.title); }}
@@ -115,28 +111,21 @@ function RoundCard({ round, selected, setSelected, start }) {
 export default function Overview() {
   const { interviews } = useInterview();
   const navigate       = useNavigate();
-
   const [userName, setUserName] = useState("User");
   const [search,   setSearch]   = useState("");
   const [tab,      setTab]      = useState("All");
   const [selected, setSelected] = useState(null);
-
   const scrollRefs = useRef({});
-
   useEffect(() => {
     getCurrentUser()
       .then(u => { if (u?.full_name) setUserName(u.full_name); })
       .catch(console.error);
   }, []);
-
   const completed = interviews.filter(i => i.status === "completed").length;
-
   const startInterview = round => {
     navigate(`/dashboard/interview/setup?type=${encodeURIComponent(round)}`);
   };
-
   const tabs = ["All", ...CATEGORIES.map(c => c.label)];
-
   const filteredRounds = useMemo(() => {
     const q = search.toLowerCase();
     return ALL_ROUNDS.filter(
@@ -145,7 +134,6 @@ export default function Overview() {
         (tab === "All" || r.type === tab)
     );
   }, [search, tab]);
-
   const grouped =
     tab === "All"
       ? CATEGORIES.map(cat => ({
@@ -156,13 +144,11 @@ export default function Overview() {
 
   return (
     <div className="ov">
-
       <div className="hero">
         <div>
-          <h1>Hello {userName.split(" ")[0]} 👋</h1>
+         <h1>Hello {userName.split(" ")[0]} 👋</h1>
           <p>Select an interview round and start practicing.</p>
         </div>
-
         <div className="hero-right">
           <div className="stats">
             <div><Trophy size={16} /> {completed} Completed</div>
@@ -181,7 +167,6 @@ export default function Overview() {
             onChange={e => setSearch(e.target.value)}
           />
         </div>
-
         <div className="tabs">
           {tabs.map(t => (
             <button
@@ -194,7 +179,6 @@ export default function Overview() {
           ))}
         </div>
       </div>
-
       {filteredRounds.length === 0 && search ? (
         <div className="no-results">
           <p>No results for "<strong>{search}</strong>"</p>
@@ -203,7 +187,6 @@ export default function Overview() {
         grouped.map(cat => (
           <div key={cat.label}>
             <h3 className="section">{cat.label}</h3>
-
             <div className="row-wrapper">
               <button
                 className="scroll-btn left"
@@ -211,7 +194,6 @@ export default function Overview() {
                   scrollRefs.current[cat.label].scrollBy({ left: -400, behavior: "smooth" })
                 }
               >◀</button>
-
               <div
                 ref={el => (scrollRefs.current[cat.label] = el)}
                 className="scroll-container"
@@ -226,7 +208,6 @@ export default function Overview() {
                   />
                 ))}
               </div>
-
               <button
                 className="scroll-btn right"
                 onClick={() =>
@@ -237,7 +218,6 @@ export default function Overview() {
           </div>
         ))
       )}
-
       {selected && (
         <div className="launcher">
           <div className="launcher-left">
@@ -254,7 +234,6 @@ export default function Overview() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
