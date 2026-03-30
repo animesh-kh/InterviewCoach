@@ -21,7 +21,7 @@ Login Page	           authenticateCandidate()
 
 
 2️.Question Generation Module (AI-Based)
-Generates interview questions dynamically based on:
+Generates interview questions based on:
 
 Role (e.g., Software Engineer)
 Difficulty level
@@ -54,8 +54,8 @@ Submit Answer	        saveResponse()
 4️.Answer Evaluation Module (Core AI Logic)
 Evaluates candidate answers using:
 NLP techniques OR
-Keyword matching OR
-External AI APIs (like LLMs)
+Keyword matching 
+
 
 Business Logic:-
 Compare answer with expected answer
