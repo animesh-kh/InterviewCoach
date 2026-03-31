@@ -106,7 +106,6 @@ export default function Resume() {
         </div>
       </div>
 
-      {/* Resume List */}
       <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
         <h2 className="text-xl font-semibold text-slate-800 mb-4">
           My Resumes
@@ -125,7 +124,6 @@ export default function Resume() {
               >
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5 text-indigo-500" />
-
                   <span className="text-slate-700 font-medium">
                     {resume.filename || `Resume ${resume.id}`}
                   </span>
@@ -143,7 +141,6 @@ export default function Resume() {
         )}
       </div>
 
-      {/* Extracted Text */}
       {selectedResume && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">

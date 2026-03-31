@@ -51,9 +51,7 @@ const plans = [
 ];
 
 export default function Pricing() {
-
   const navigate = useNavigate();
-
   const handlePricingAction = () => {
     const token = localStorage.getItem("token");
     if (token) navigate("/dashboard");
@@ -69,7 +67,6 @@ export default function Pricing() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
         <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -87,9 +84,7 @@ export default function Pricing() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-
           {plans.map((plan, index) => (
-
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 30 }}
@@ -152,13 +147,9 @@ export default function Pricing() {
                 {plan.buttonText}
                 <ArrowRight size={18} />
               </button>
-
             </motion.div>
-
           ))}
-
         </div>
-
       </div>
     </section>
   );

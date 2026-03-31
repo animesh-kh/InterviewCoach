@@ -2,9 +2,7 @@ import { motion } from 'motion/react';
 import { useNavigate } from "react-router-dom";
 
 const CTA = () => {
-
   const navigate = useNavigate();
-
   const handleStart = () => {
     const token = localStorage.getItem("token");
     if (token) navigate("/dashboard");
@@ -53,10 +51,8 @@ const CTA = () => {
               >
                 Get Started for Free
               </button>
-           
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>
