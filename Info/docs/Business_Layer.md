@@ -55,7 +55,7 @@ Submit Answer	        saveResponse()
 Evaluates candidate answers using:
 NLP techniques OR
 Keyword matching OR
-External AI APIs (like LLMs)
+External AI APIs 
 
 Business Logic:-
 Compare answer with expected answer
@@ -87,7 +87,6 @@ Business Logic:-
 Compile answers + scores
 Generate PDF/JSON report
 Store history
-
 
 Interaction with UI:- 
 UI Component	           BLL Function
@@ -121,10 +120,6 @@ if(userExists(email)) {
     throw new Exception("User already exists");
 }
 
-if(password.length() < 6) {
-    throw new Exception("Weak password");
-}
-
 2. Question Generation Module
 Generates interview questions dynamically.
 
@@ -140,8 +135,7 @@ while(selectedQuestions.size() < 10) {
     String q = getRandomQuestion(role, level);
     selectedQuestions.add(q);
 }
-
-
+ 
 3.Interview Session Management Module
 Controls interview flow and timing.
 
@@ -263,7 +257,7 @@ Example: checking empty fields before submission
 Ensures security and correctness
 Cannot be bypassed by user
 
-🔹 Where Data Transformation is Used::--
+Where Data Transformation is Used::--
 
 Candidate Data Transformation:-
 Database stores raw candidate details, but UI needs formatted data.
