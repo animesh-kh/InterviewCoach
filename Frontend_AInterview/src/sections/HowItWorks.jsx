@@ -3,9 +3,7 @@ import { Play } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
 const HowItWorks = () => {
-
   const navigate = useNavigate();
-
   const handleTryNow = () => {
     const token = localStorage.getItem("token");
     if (token) navigate("/dashboard");
