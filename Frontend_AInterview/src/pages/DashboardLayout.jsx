@@ -8,7 +8,7 @@ export default function DashboardLayout() {
   const { isDark } = useTheme();
   const [open, setOpen] = useState(false);
   return (
-    <div className={isDark ? "dark" : ""}>
+    <div className={`dashboard-layout min-h-screen overflow-x-hidden ${isDark ? "dark" : ""}`}>
       <div className="dashboard-layout min-h-screen overflow-x-hidden">
         <Sidebar open={open} onClose={() => setOpen(false)} />
         {open && (
