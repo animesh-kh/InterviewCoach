@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "./context/ThemeContext";
 import Landing from "./pages/Landing";
 import AuthPage from "./pages/AuthPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -14,7 +13,7 @@ import InterviewSession from "./pages/InterviewSession";
 
 export default function App() {
   return (
-    <ThemeProvider> {/* 👈 add this */}
+    <>
       <ScrollToTop />
 
       <Routes>
@@ -43,6 +42,6 @@ export default function App() {
           <Route path="interview/session" element={<InterviewSession />} />
         </Route>
       </Routes>
-    </ThemeProvider> 
+    </>
   );
 }
