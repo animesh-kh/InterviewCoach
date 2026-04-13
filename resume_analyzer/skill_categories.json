@@ -1,0 +1,16 @@
+{
+  "language": ["python", "java", "javascript", "typescript", "dart", "kotlin", "swift", "go", "golang", "ruby", "scala", "rust", "php", "perl", "r", "matlab", "c", "c++", "c#", "bash", "objective-c"],
+  "frontend_framework": ["react", "reactjs", "angular", "vue", "svelte", "next.js", "nextjs", "jquery", "bootstrap", "tailwind", "sass", "less"],
+  "backend_framework": ["django", "flask", "fastapi", "express", "nodejs", "node.js", "spring", "spring boot", "laravel", "rails", "ruby on rails", "asp.net", ".net", "dotnet", "celery"],
+  "mobile": ["flutter", "react native", "xamarin", "ionic", "android", "ios"],
+  "database_sql": ["mysql", "postgresql", "postgres", "sqlite", "mssql", "sql server", "oracle", "mariadb", "sql"],
+  "database_nosql": ["mongodb", "redis", "cassandra", "elasticsearch", "dynamodb", "firebase", "couchdb", "neo4j"],
+  "cloud": ["aws", "amazon web services", "azure", "gcp", "google cloud", "ec2", "s3", "lambda", "sagemaker"],
+  "devops": ["docker", "kubernetes", "jenkins", "terraform", "ansible", "puppet", "chef", "ci/cd", "github actions", "gitlab ci", "linux", "nginx", "helm", "airflow"],
+  "ml_framework": ["tensorflow", "pytorch", "keras", "scikit-learn", "sklearn", "xgboost", "lightgbm", "opencv", "numpy", "pandas", "matplotlib", "seaborn"],
+  "ml_concepts": ["machine learning", "deep learning", "neural network", "nlp", "computer vision", "object detection", "cnn", "rnn", "lstm", "reinforcement learning", "data science", "feature engineering", "mlops", "spark", "hadoop"],
+  "api_and_web": ["rest", "restful", "graphql", "grpc", "soap", "websocket", "html", "html5", "css", "css3", "json", "xml"],
+  "architecture": ["microservices", "monolithic", "mvc", "system design", "design patterns", "oop", "object-oriented", "agile", "scrum"],
+  "version_control": ["git", "github", "gitlab", "bitbucket", "svn"],
+  "testing": ["unit testing", "pytest", "junit", "selenium", "jest", "jasmine", "karma", "mocha", "cypress"]
+}

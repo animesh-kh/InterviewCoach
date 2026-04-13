@@ -1,0 +1,142 @@
+{
+  "Machine Learning": {
+    "entry": {
+      "mandatory": ["python", "numpy", "pandas", "scikit-learn", "matplotlib", "sql", "git", "machine learning", "statistics"],
+      "optional":  ["tensorflow", "pytorch", "jupyter", "seaborn", "feature engineering", "data science"]
+    },
+    "mid": {
+      "mandatory": ["python", "numpy", "pandas", "scikit-learn", "tensorflow", "pytorch", "sql", "git", "machine learning", "deep learning", "feature engineering", "docker", "rest"],
+      "optional":  ["mlops", "aws", "gcp", "azure", "spark", "nlp", "computer vision", "keras", "xgboost", "airflow"]
+    },
+    "senior": {
+      "mandatory": ["python", "tensorflow", "pytorch", "scikit-learn", "sql", "git", "machine learning", "deep learning", "mlops", "docker", "kubernetes", "aws", "feature engineering", "nlp", "spark"],
+      "optional":  ["gcp", "azure", "reinforcement learning", "computer vision", "xgboost", "lightgbm", "hadoop", "scala", "airflow", "sagemaker"]
+    }
+  },
+  "Django Developer": {
+    "entry": {
+      "mandatory": ["python", "django", "sql", "git", "html", "css", "rest"],
+      "optional":  ["postgresql", "docker", "javascript", "celery", "redis"]
+    },
+    "mid": {
+      "mandatory": ["python", "django", "postgresql", "git", "rest", "docker", "html", "css", "javascript", "redis"],
+      "optional":  ["celery", "aws", "nginx", "elasticsearch", "graphql", "pytest"]
+    },
+    "senior": {
+      "mandatory": ["python", "django", "postgresql", "git", "rest", "docker", "kubernetes", "aws", "redis", "celery", "pytest"],
+      "optional":  ["graphql", "elasticsearch", "nginx", "terraform", "microservices", "gcp", "azure"]
+    }
+  },
+  "Full Stack Developer": {
+    "entry": {
+      "mandatory": ["html", "css", "javascript", "git", "sql", "rest"],
+      "optional":  ["react", "nodejs", "python", "mongodb", "bootstrap", "typescript"]
+    },
+    "mid": {
+      "mandatory": ["html", "css", "javascript", "react", "nodejs", "sql", "mongodb", "git", "rest", "docker", "typescript"],
+      "optional":  ["aws", "graphql", "redis", "postgresql", "ci/cd", "jest", "microservices"]
+    },
+    "senior": {
+      "mandatory": ["html", "css", "javascript", "react", "nodejs", "sql", "mongodb", "git", "rest", "docker", "kubernetes", "aws", "ci/cd", "typescript", "microservices"],
+      "optional":  ["graphql", "terraform", "gcp", "azure", "redis", "elasticsearch", "system design"]
+    }
+  },
+  "Flutter Developer": {
+    "entry": {
+      "mandatory": ["flutter", "dart", "git", "rest", "firebase"],
+      "optional":  ["android", "ios", "sqlite", "state management"]
+    },
+    "mid": {
+      "mandatory": ["flutter", "dart", "git", "rest", "firebase", "android", "ios", "ci/cd"],
+      "optional":  ["kotlin", "swift", "aws", "graphql", "docker", "unit testing"]
+    },
+    "senior": {
+      "mandatory": ["flutter", "dart", "git", "rest", "firebase", "android", "ios", "ci/cd", "docker", "kotlin", "swift"],
+      "optional":  ["aws", "azure", "graphql", "kubernetes", "unit testing", "performance optimization"]
+    }
+  },
+  "iOS Developer": {
+    "entry": {
+      "mandatory": ["swift", "ios", "git", "objective-c", "rest", "xcode"],
+      "optional":  ["sqlite", "firebase", "cocoapods", "unit testing"]
+    },
+    "mid": {
+      "mandatory": ["swift", "ios", "git", "objective-c", "rest", "ci/cd", "unit testing", "firebase"],
+      "optional":  ["kotlin", "aws", "docker", "react native", "graphql", "fastlane"]
+    },
+    "senior": {
+      "mandatory": ["swift", "ios", "git", "objective-c", "rest", "ci/cd", "unit testing", "firebase", "aws", "docker"],
+      "optional":  ["kotlin", "graphql", "kubernetes", "microservices", "react native", "fastlane"]
+    }
+  },
+  "Java Developer": {
+    "entry": {
+      "mandatory": ["java", "git", "sql", "oop", "rest", "html", "css"],
+      "optional":  ["spring", "maven", "junit", "postgresql", "javascript"]
+    },
+    "mid": {
+      "mandatory": ["java", "spring", "git", "sql", "rest", "oop", "junit", "maven", "docker"],
+      "optional":  ["aws", "postgresql", "microservices", "kafka", "redis", "kubernetes", "ci/cd"]
+    },
+    "senior": {
+      "mandatory": ["java", "spring", "spring boot", "git", "sql", "rest", "oop", "junit", "docker", "kubernetes", "microservices", "aws", "ci/cd"],
+      "optional":  ["kafka", "redis", "elasticsearch", "terraform", "gcp", "azure", "scala", "system design"]
+    }
+  },
+  "JavaScript Developer": {
+    "entry": {
+      "mandatory": ["javascript", "html", "css", "git", "rest"],
+      "optional":  ["react", "nodejs", "typescript", "jest", "bootstrap"]
+    },
+    "mid": {
+      "mandatory": ["javascript", "typescript", "react", "nodejs", "html", "css", "git", "rest", "jest", "docker"],
+      "optional":  ["graphql", "mongodb", "aws", "ci/cd", "webpack", "postgresql", "redis"]
+    },
+    "senior": {
+      "mandatory": ["javascript", "typescript", "react", "nodejs", "html", "css", "git", "rest", "docker", "ci/cd", "aws", "microservices"],
+      "optional":  ["graphql", "kubernetes", "mongodb", "redis", "terraform", "webpack", "system design"]
+    }
+  },
+  "DevOps Engineer": {
+    "entry": {
+      "mandatory": ["linux", "git", "docker", "bash", "ci/cd"],
+      "optional":  ["python", "jenkins", "aws", "ansible", "nginx"]
+    },
+    "mid": {
+      "mandatory": ["linux", "git", "docker", "kubernetes", "ci/cd", "terraform", "aws", "bash", "python", "jenkins"],
+      "optional":  ["ansible", "gcp", "azure", "prometheus", "grafana", "nginx", "helm"]
+    },
+    "senior": {
+      "mandatory": ["linux", "git", "docker", "kubernetes", "terraform", "aws", "ci/cd", "bash", "python", "jenkins", "ansible", "prometheus"],
+      "optional":  ["gcp", "azure", "helm", "vault", "grafana", "istio", "service mesh", "security", "sre"]
+    }
+  },
+  "Software Engineer": {
+    "entry": {
+      "mandatory": ["python", "git", "sql", "oop", "rest", "html", "css"],
+      "optional":  ["javascript", "java", "docker", "junit", "postgresql"]
+    },
+    "mid": {
+      "mandatory": ["python", "git", "sql", "rest", "oop", "docker", "ci/cd", "unit testing"],
+      "optional":  ["aws", "microservices", "kubernetes", "kafka", "redis", "system design", "agile"]
+    },
+    "senior": {
+      "mandatory": ["python", "git", "sql", "rest", "oop", "docker", "kubernetes", "aws", "ci/cd", "microservices", "system design"],
+      "optional":  ["terraform", "kafka", "redis", "elasticsearch", "gcp", "azure", "agile", "scrum"]
+    }
+  },
+  "Database Administrator": {
+    "entry": {
+      "mandatory": ["sql", "mysql", "git", "linux", "postgresql"],
+      "optional":  ["oracle", "mongodb", "python", "bash", "backup recovery"]
+    },
+    "mid": {
+      "mandatory": ["sql", "mysql", "postgresql", "linux", "git", "python", "bash", "mongodb", "performance tuning"],
+      "optional":  ["oracle", "aws", "redis", "elasticsearch", "docker", "replication"]
+    },
+    "senior": {
+      "mandatory": ["sql", "mysql", "postgresql", "oracle", "linux", "git", "python", "bash", "docker", "aws", "performance tuning", "replication"],
+      "optional":  ["kubernetes", "cassandra", "redis", "elasticsearch", "gcp", "azure", "terraform"]
+    }
+  }
+}
