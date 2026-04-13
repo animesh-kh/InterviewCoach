@@ -16,13 +16,13 @@
   --border:  #e5e7eb;
 }
 
-.dark {
-  --bg:      #0b1220;
+.dashboard-layout.dark {
+  --bg: #0b1220;
   --surface: #111827;
-  --card:    #1f2937;
-  --text:    #f9fafb;
+  --card: #1f2937;
+  --text: #f9fafb;
   --text-muted: #94a3b8;
-  --border:  #374151;
+  --border: #374151;
 }
 
 @layer base {
