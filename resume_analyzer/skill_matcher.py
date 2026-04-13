@@ -19,7 +19,7 @@ import docx
 
 
 # ── Load data files ────────────────────────────────────────────────────────────
-_DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+_DATA_DIR = os.path.dirname(__file__)
 
 with open(os.path.join(_DATA_DIR, "role_skills_db.json")) as _f:
     ROLE_SKILLS_DB: dict = json.load(_f)

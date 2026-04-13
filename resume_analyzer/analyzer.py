@@ -194,7 +194,7 @@ class ResumeAnalyzer:
             mandatory   = gap["mandatory_missing"],
             optional    = gap["optional_missing"],
         )
-
+        ats = 100
         # Step 4: Return clean result dict
         return {
             "role"             : gap["matched_role"],
@@ -204,4 +204,5 @@ class ResumeAnalyzer:
             "optional_missing" : gap["optional_missing"],
             "skipped_skills"   : [s["skill"] for s in gap["skipped"]],
             "feedback_text"    : feedback,
+            "ats" : ats,
         }
