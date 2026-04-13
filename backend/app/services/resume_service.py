@@ -1,3 +1,4 @@
+#from resume_analyzer.analyzer import ResumeAnalyzer
 """
 Resume Service
 --------------
@@ -24,5 +25,6 @@ Expected return format:
 def screen_resume(file_bytes: bytes, filename: str) -> dict:
     """
     PLACEHOLDER — swap this out with the real implementation.
+
     """
     raise NotImplementedError("Resume screening function not yet connected.")
