@@ -22,7 +22,7 @@ def sign_up(body: SignUpRequest):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
+ 
 
 @router.post("/signin", response_model=AuthResponse)
 def sign_in(body: SignInRequest):
