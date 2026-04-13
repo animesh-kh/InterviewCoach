@@ -8,13 +8,10 @@ export const signin = async (credentials) => {
     },
     body: JSON.stringify(credentials),
   });
-
   const data = await response.json();
-
   if (data.access_token) {
     localStorage.setItem("token", data.access_token);
   }
-
   return data;
 };
 
@@ -26,7 +23,6 @@ export const signup = async (userData) => {
     },
     body: JSON.stringify(userData),
   });
-
   return response.json();
 };
 
@@ -40,23 +36,21 @@ export const getToken = () => {
 
 export const getCurrentUser = async () => {
   const token = getToken();
-
   const response = await fetch(`${API_BASE}/auth/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-
   return response.json();
 };
 
-export const uploadResume = async (file) => {
+export const uploadResume = async (file, role, experience) => {
   const token = getToken();
-
   const formData = new FormData();
   formData.append("file", file);
-
-  const response = await fetch(`${API_BASE}/resumes/upload`, {
+  formData.append("role", role);
+  formData.append("experience", experience);
+  const response = await fetch(`${API_BASE}/resumes/analyze`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -67,33 +61,8 @@ export const uploadResume = async (file) => {
   return response.json();
 };
 
-export const getMyResumes = async () => {
-  const token = getToken();
-
-  const response = await fetch(`${API_BASE}/resumes/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.json();
-};
-
-export const getResume = async (id) => {
-  const token = getToken();
-
-  const response = await fetch(`${API_BASE}/resumes/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.json();
-};
-
 export const startInterview = async (data) => {
   const token = getToken();
-
   const response = await fetch(`${API_BASE}/interviews/start`, {
     method: "POST",
     headers: {
@@ -108,7 +77,6 @@ export const startInterview = async (data) => {
 
 export const saveInterview = async (data) => {
   const token = getToken();
-
   const response = await fetch(`${API_BASE}/interviews/save`, {
     method: "POST",
     headers: {
@@ -117,25 +85,21 @@ export const saveInterview = async (data) => {
     },
     body: JSON.stringify(data),
   });
-
   return response.json();
 };
 
 export const getInterviewHistory = async () => {
   const token = getToken();
-
   const response = await fetch(`${API_BASE}/interviews/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-
   return response.json();
 };
 
 export const getInterview = async (id) => {
   const token = getToken();
-
   const response = await fetch(`${API_BASE}/interviews/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
