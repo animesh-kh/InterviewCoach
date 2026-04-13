@@ -194,7 +194,28 @@ class ResumeAnalyzer:
             mandatory   = gap["mandatory_missing"],
             optional    = gap["optional_missing"],
         )
-        ats = 100
+        mandatory_missing = gap["mandatory_missing"]
+        optional_missing = gap["optional_missing"]
+        skipped_skills = gap["skipped"]
+        user_skills = gap["user_skills"]
+
+        # Base scores
+        mandatory_score = 1 - (len(mandatory_missing) / (len(user_skills) + len(mandatory_missing) + 1e-5))
+        optional_score = 1 - (len(optional_missing) / (len(user_skills) + len(optional_missing) + 1e-5))
+
+        # Base weighted score
+        ats = (0.7 * mandatory_score + 0.2 * optional_score) * 100
+
+        # 🔻 Penalties
+        penalty_missing_optional = len(optional_missing) * 2
+        penalty_skipped = len(skipped_skills) * 1.5  # THIS is key
+
+        ats = ats - penalty_missing_optional - penalty_skipped
+
+        # Clamp between 0–100
+        ats = max(0, min(100, ats))
+
+        ats = round(ats, 2)
         # Step 4: Return clean result dict
         return {
             "role"             : gap["matched_role"],
