@@ -207,7 +207,7 @@ models/
 *.index
 
 # Data Files (if storing test data)
-data/
+/data/
 *.csv
 *.parquet
 .DS_Store
