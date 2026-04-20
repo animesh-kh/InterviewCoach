@@ -257,12 +257,12 @@ export default function Resume() {
             </div>
 
             {/* Raw JSON */}
-            <details className="mt-12 border border-slate-200 rounded-2xl p-4">
+            {/* <details className="mt-12 border border-slate-200 rounded-2xl p-4">
               <summary className="cursor-pointer text-slate-500 font-medium text-sm">View Full Raw JSON</summary>
               <pre className="mt-4 bg-slate-900 text-slate-100 p-6 rounded-xl text-sm overflow-auto">
                 {JSON.stringify(selectedResume, null, 2)}
               </pre>
-            </details>
+            </details> */}
           </div>
         )}
       </div>
