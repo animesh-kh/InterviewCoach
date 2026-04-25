@@ -2,20 +2,20 @@ import os
 import json
 import io
 import PyPDF2
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 from groq import Groq # <--- Make sure this is here!
 from supabase import create_client, Client as SupabaseClient
 
-# Load variables from .env
-load_dotenv()
+# Load variables from the .env in THIS module's directory (isolated from backend .env)
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+_env = dotenv_values(_env_path)
 
 # 1. Initialize Groq Client
-# Ensure your .env has GROQ_API_KEY=your_key_here
-groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+groq_client = Groq(api_key=_env.get("GROQ_API_KEY"))
 
-# 2. Initialize Supabase Client
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_KEY")
+# 2. Initialize Supabase Client (uses interview_module's own database)
+supabase_url = _env.get("SUPABASE_URL")
+supabase_key = _env.get("SUPABASE_KEY")
 supabase: SupabaseClient = create_client(supabase_url, supabase_key)
 
 def extract_text_from_pdf(pdf_bytes):

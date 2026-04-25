@@ -6,3 +6,5 @@ python-jose[cryptography]
 python-multipart
 pydantic[email]
 httpx
+groq
+PyPDF2
