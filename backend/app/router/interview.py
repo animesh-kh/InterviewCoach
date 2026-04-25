@@ -28,6 +28,7 @@ if INTERVIEW_MODULE_PATH not in sys.path:
 from start_interview import start_interview as ai_start_interview
 from next_question import next_question as ai_next_question
 from get_question import get_question as ai_get_question
+from get_result import get_result as ai_get_result
 
 router = APIRouter(prefix="/interviews", tags=["Interviews"])
 
@@ -72,14 +73,13 @@ async def start_interview(
         intro_text = result["intro"]
         first_question_text = result["first_question"]
 
-        # 4. Save interview record to backend database
-        db_record = supabase.table("interviews").insert({
+        # 4. Save interview record to backend database (same ID as interview_module)
+        supabase.table("interviews").insert({
+            "id": interview_id,
             "user_id": str(user.id),
             "job_role": job_role,
             "interview_type": seniority,
         }).execute()
-
-        backend_interview_id = db_record.data[0]["id"]
 
         # 5. Convert intro and first question to speech via TTS
         tts = CloudflareTTS()
@@ -95,7 +95,6 @@ async def start_interview(
         return JSONResponse(content={
             "status": "success",
             "interview_id": interview_id,
-            "backend_interview_id": str(backend_interview_id),
             "intro": {
                 "text": intro_text,
                 "audio_base64": intro_audio_b64,
@@ -275,6 +274,89 @@ async def get_next_question(
                 "audio_base64": question_audio_b64,
             },
             "answer_received": prev_fa,
+        })
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── POST /interviews/end ──────────────────────────────────────────────
+
+@router.post("/end")
+async def end_interview(
+    interview_id: str = Form(...),
+    answer_type: str = Form(...),
+    answer_text: str = Form(None),
+    answer_audio: UploadFile = File(None),
+    user=Depends(get_current_user),
+):
+    """
+    End the interview, get the final evaluation, and save results.
+
+    Parameters (form data):
+        - interview_id: the shared interview ID (same for both DBs)
+        - answer_type: "text" or "audio"
+        - answer_text: last follow-up answer as text (if answer_type is "text")
+        - answer_audio: last follow-up answer as audio file (if answer_type is "audio")
+
+    Flow:
+        1. If answer_type is "audio", convert to text via STT.
+        2. Call interview_module.get_result(interview_id, last_followup_answer)
+           → evaluates transcript, deletes from interview_module DB.
+        3. Save score + feedback to backend database.
+        4. Return results to frontend.
+    """
+    try:
+        # 1. Resolve the last follow-up answer
+        if answer_type == "audio":
+            if not answer_audio:
+                raise HTTPException(status_code=400, detail="Audio file is required when answer_type is 'audio'.")
+
+            audio_bytes = await answer_audio.read()
+            if not audio_bytes:
+                raise HTTPException(status_code=400, detail="Audio file is empty.")
+
+            stt = CloudflareSTT()
+            content_type = answer_audio.content_type or "audio/mpeg"
+            stt_result = await stt.transcribe(audio_bytes, content_type=content_type)
+            last_fa = stt_result.get("text", "")
+
+            if not last_fa:
+                raise HTTPException(status_code=400, detail="Could not transcribe audio.")
+
+        elif answer_type == "text":
+            if not answer_text:
+                raise HTTPException(status_code=400, detail="answer_text is required when answer_type is 'text'.")
+            last_fa = answer_text
+
+        else:
+            raise HTTPException(status_code=400, detail="answer_type must be 'text' or 'audio'.")
+
+        # 2. Call interview_module's get_result
+        result = ai_get_result(interview_id, last_fa)
+
+        if result.get("status") != "success":
+            raise HTTPException(
+                status_code=500,
+                detail=result.get("message", "Failed to get interview results."),
+            )
+
+        score = result["score"]
+        feedback = result["feedback"]
+
+        # 3. Save score + feedback to backend database (same interview_id)
+        supabase.table("interviews").update({
+            "overall_score": score,
+            "ai_feedback": feedback,
+        }).eq("id", interview_id).eq("user_id", str(user.id)).execute()
+
+        # 4. Return results to frontend
+        return JSONResponse(content={
+            "status": "success",
+            "score": score,
+            "feedback": feedback,
         })
 
     except HTTPException:
