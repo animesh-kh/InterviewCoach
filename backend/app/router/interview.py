@@ -363,3 +363,45 @@ async def end_interview(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── GET /interviews/ ─────────────────────────────────────────────────
+
+@router.get("/")
+def get_all_interviews(user=Depends(get_current_user)):
+    """Get all interviews for the logged-in user, sorted by newest first."""
+    try:
+        response = supabase.table("interviews") \
+            .select("*") \
+            .eq("user_id", str(user.id)) \
+            .order("created_at", desc=True) \
+            .execute()
+
+        return {"status": "success", "interviews": response.data}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── GET /interviews/{interview_id} ───────────────────────────────────
+
+@router.get("/{interview_id}")
+def get_interview(interview_id: str, user=Depends(get_current_user)):
+    """Get details of a single interview by ID."""
+    try:
+        response = supabase.table("interviews") \
+            .select("*") \
+            .eq("id", interview_id) \
+            .eq("user_id", str(user.id)) \
+            .single() \
+            .execute()
+
+        if not response.data:
+            raise HTTPException(status_code=404, detail="Interview not found.")
+
+        return {"status": "success", "interview": response.data}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
