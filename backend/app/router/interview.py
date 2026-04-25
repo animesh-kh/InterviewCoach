@@ -27,6 +27,7 @@ if INTERVIEW_MODULE_PATH not in sys.path:
 
 from start_interview import start_interview as ai_start_interview
 from next_question import next_question as ai_next_question
+from get_question import get_question as ai_get_question
 
 router = APIRouter(prefix="/interviews", tags=["Interviews"])
 
@@ -188,6 +189,92 @@ async def get_follow_up(
                 "audio_base64": follow_up_audio_b64,
             },
             "answer_received": user_answer,
+        })
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── POST /interviews/get-next-question ────────────────────────────────
+
+@router.post("/get-next-question")
+async def get_next_question(
+    interview_id: str = Form(...),
+    question_number: int = Form(...),
+    answer_type: str = Form(...),
+    answer_text: str = Form(None),
+    answer_audio: UploadFile = File(None),
+    user=Depends(get_current_user),
+):
+    """
+    Submit the follow-up answer and get the next main question.
+
+    Parameters (form data):
+        - interview_id: the interview_module interview ID
+        - question_number: the NEXT question number to fetch (2-5)
+        - answer_type: "text" or "audio"
+        - answer_text: follow-up answer as text (if answer_type is "text")
+        - answer_audio: follow-up answer as audio file (if answer_type is "audio")
+
+    Flow:
+        1. If answer_type is "audio", convert to text via STT.
+        2. Call interview_module.get_question(interview_id, question_number, prev_fa)
+           → saves prev follow-up answer, fetches next main question.
+        3. Convert next question to speech via TTS.
+        4. Return next question as text + audio.
+    """
+    try:
+        # 1. Resolve the follow-up answer text
+        if answer_type == "audio":
+            if not answer_audio:
+                raise HTTPException(status_code=400, detail="Audio file is required when answer_type is 'audio'.")
+
+            audio_bytes = await answer_audio.read()
+            if not audio_bytes:
+                raise HTTPException(status_code=400, detail="Audio file is empty.")
+
+            stt = CloudflareSTT()
+            content_type = answer_audio.content_type or "audio/mpeg"
+            stt_result = await stt.transcribe(audio_bytes, content_type=content_type)
+            prev_fa = stt_result.get("text", "")
+
+            if not prev_fa:
+                raise HTTPException(status_code=400, detail="Could not transcribe audio.")
+
+        elif answer_type == "text":
+            if not answer_text:
+                raise HTTPException(status_code=400, detail="answer_text is required when answer_type is 'text'.")
+            prev_fa = answer_text
+
+        else:
+            raise HTTPException(status_code=400, detail="answer_type must be 'text' or 'audio'.")
+
+        # 2. Call interview_module's get_question
+        result = ai_get_question(interview_id, question_number, prev_fa=prev_fa)
+
+        if result.get("status") != "success":
+            raise HTTPException(
+                status_code=500,
+                detail=result.get("message", "Failed to get next question."),
+            )
+
+        next_question_text = result["question"]
+
+        # 3. Convert next question to speech via TTS
+        tts = CloudflareTTS()
+        question_audio_bytes = await tts.synthesize(next_question_text)
+        question_audio_b64 = base64.b64encode(question_audio_bytes).decode("utf-8")
+
+        # 4. Return next question as text + audio
+        return JSONResponse(content={
+            "status": "success",
+            "question": {
+                "text": next_question_text,
+                "audio_base64": question_audio_b64,
+            },
+            "answer_received": prev_fa,
         })
 
     except HTTPException:
