@@ -27,6 +27,7 @@ export default function Resume() {
   const [pastResumes, setPastResumes] = useState([]);
   const resultRef = useRef(null);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [historyError, setHistoryError] = useState(null);
 
   useEffect(() => {
     fetchHistory();
@@ -35,10 +36,13 @@ export default function Resume() {
   const fetchHistory = async () => {
     try {
       setLoadingHistory(true);
+      setHistoryError(null);
       const data = await getMyResumes();
-      setPastResumes(data);
+      console.log("Resume history response:", data);
+      setPastResumes(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch resume history:", err);
+      setHistoryError(err.message || "Failed to load history");
     } finally {
       setLoadingHistory(false);
     }
@@ -189,6 +193,15 @@ export default function Resume() {
         </div>
 
         {/* ====================== RESUME HISTORY ====================== */}
+        {loadingHistory && (
+          <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10 mb-10 text-center">
+            <div className="animate-pulse flex items-center justify-center gap-3">
+              <History className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-slate-500 dark:text-slate-400">Loading previous analyses...</span>
+            </div>
+          </div>
+        )}
+
         {!loadingHistory && pastResumes.length > 0 && (
           <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10 mb-10">
             <div className="flex items-center gap-3 mb-6">
