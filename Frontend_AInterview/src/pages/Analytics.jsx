@@ -17,10 +17,10 @@ export default function Analytics() {
   if (completed.length === 0) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-2">
+        <h2 className="text-2xl font-bold mb-2 dark:text-white">
           No Analytics Yet
         </h2>
-        <p className="text-slate-500">
+        <p className="text-slate-500 dark:text-slate-400">
           Complete interviews to see performance analytics.
         </p>
       </div>
@@ -41,7 +41,7 @@ export default function Analytics() {
 
   return (
     <div className="space-y-10">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-bold dark:text-white">
         Performance Analytics
       </h1>
       <div className="grid md:grid-cols-3 gap-6">
@@ -49,7 +49,7 @@ export default function Analytics() {
         <StatCard title="Average Score" value={`${avgScore}%`} />
         <StatCard title="Highest Score" value={`${highestScore}%`} />
       </div>
-      <div className="bg-white p-6 rounded-2xl border shadow-sm h-350px">
+      <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border dark:border-white/10 shadow-sm h-350px">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <XAxis dataKey="name" />
@@ -70,9 +70,9 @@ export default function Analytics() {
 
 function StatCard({ title, value }) {
   return (
-    <div className="bg-white p-6 rounded-2xl border shadow-sm">
-      <p className="text-sm text-slate-500">{title}</p>
-      <h3 className="text-2xl font-bold mt-2">{value}</h3>
+    <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border dark:border-white/10 shadow-sm">
+      <p className="text-sm text-slate-500 dark:text-slate-400">{title}</p>
+      <h3 className="text-2xl font-bold mt-2 dark:text-white">{value}</h3>
     </div>
   );
 }

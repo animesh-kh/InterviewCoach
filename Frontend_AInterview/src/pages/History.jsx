@@ -8,14 +8,14 @@ import {
 
 function StatCard({ title, value, icon: Icon, color }) {
   return (
-    <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+    <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border dark:border-white/10 shadow-sm flex items-center gap-4">
       <div className={`p-3 rounded-xl text-white ${color}`}>
         <Icon className="w-6 h-6" />
       </div>
 
       <div>
-        <p className="text-sm text-slate-500">{title}</p>
-        <h3 className="text-xl font-bold">{value}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{title}</p>
+        <h3 className="text-xl font-bold dark:text-white">{value}</h3>
       </div>
     </div>
   );
@@ -48,10 +48,10 @@ export default function History() {
   if (totalCompleted === 0) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-2">
+        <h2 className="text-2xl font-bold mb-2 dark:text-white">
           No Interviews Yet
         </h2>
-        <p className="text-slate-500">
+        <p className="text-slate-500 dark:text-slate-400">
           Start your first mock interview to see history here.
         </p>
       </div>
@@ -60,7 +60,7 @@ export default function History() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-bold dark:text-white">
         Interview History
       </h1>
 
@@ -98,14 +98,14 @@ export default function History() {
         {completed.map((interview) => (
           <div
             key={interview.id}
-            className="bg-white p-6 rounded-2xl border shadow-sm"
+            className="bg-white dark:bg-white/5 p-6 rounded-2xl border dark:border-white/10 shadow-sm"
           >
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h3 className="font-bold text-lg">
+                <h3 className="font-bold text-lg dark:text-white">
                   {interview.roundType}
                 </h3>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   {new Date(interview.date).toLocaleDateString()}
                 </p>
               </div>
@@ -118,21 +118,21 @@ export default function History() {
 
             <div className="grid md:grid-cols-3 gap-6">
               <div>
-                <p className="text-sm text-slate-500">Score</p>
-                <h4 className="text-xl font-bold">
+                <p className="text-sm text-slate-500 dark:text-slate-400">Score</p>
+                <h4 className="text-xl font-bold dark:text-white">
                   {interview.score}%
                 </h4>
               </div>
 
               <div>
-                <p className="text-sm text-slate-500">Duration</p>
-                <h4 className="text-xl font-bold">
+                <p className="text-sm text-slate-500 dark:text-slate-400">Duration</p>
+                <h4 className="text-xl font-bold dark:text-white">
                   {interview.duration} mins
                 </h4>
               </div>
 
               <div>
-                <p className="text-sm text-slate-500">Feedback</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Feedback</p>
                 <h4 className="text-sm">
                   {interview.feedback}
                 </h4>
