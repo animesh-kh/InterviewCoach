@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_BASE = "http://127.0.0.1:8000";
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = import.meta.env.VITE_API_BASE||"https://interviewcoach-production-ad2b.up.railway.app";
 console.log("API_BASE =", API_BASE);
 const api = axios.create({
   baseURL: API_BASE,
@@ -165,7 +165,9 @@ export const callSTT = async (file) => {
   });
   return response.data.text;
 };
-
+window.onerror = function (msg, src, line, col, err) {
+  console.log("GLOBAL ERROR:", msg, err);
+};
 export const callTTS = async (text) => {
   const response = await api.post("/tts", { text }, { responseType: "blob" });
   return URL.createObjectURL(response.data);
