@@ -21,15 +21,6 @@ export default defineConfig(({ mode }) => {
 
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
-
-      proxy: {
-        "/api": {
-          target: env.VITE_API_BASE || "https://interviewcoach-production-ad2b.up.railway.app",
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
     },
   };
 });
