@@ -3,7 +3,6 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
-  Building2,
   Briefcase,
   ChevronRight,
   FileText,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { startInterviewSession } from "../utils/api";
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -41,7 +41,6 @@ export default function InterviewSetup() {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({
-    company: "",
     experience: "entry",
     resume: null,
     role: initialRole,
@@ -49,16 +48,15 @@ export default function InterviewSetup() {
 
   const fileInputRef = useRef(null);
 
-  const companies = [
-    "Google", "Meta", "Amazon", "Apple", "Microsoft",
-    "Netflix", "Stripe", "Airbnb", "Uber", "OpenAI", "Custom"
-  ];
+
 
   const experienceLevels = [
     { label: "Entry (0-2 years)", value: "entry" },
     { label: "Mid (3-5 years)", value: "mid" },
     { label: "Senior (5+ years)", value: "senior" },
   ];
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e) => {
     if (e.target.files?.[0]) {
@@ -73,14 +71,43 @@ export default function InterviewSetup() {
     }
   };
 
-  const handleStartInterview = () => {
-    navigate(
-      `/dashboard/interview/session?role=${formData.role}&experience=${formData.experience}&type=${roundType}&company=${formData.company}`
-    );
+  const handleStartInterview = async () => {
+    if (!formData.resume) {
+      alert("Please upload a resume first.");
+      setStep(1);
+      return;
+    }
+    
+    try {
+      setIsLoading(true);
+      // Import needed at top: import { startInterviewSession } from "../utils/api";
+      const response = await startInterviewSession(
+        formData.resume,
+        formData.role,
+        formData.experience
+      );
+
+      if (response.status === "success") {
+        navigate("/dashboard/interview/session", {
+          state: {
+            interviewData: response,
+            setupData: formData,
+            roundType: roundType,
+          },
+        });
+      } else {
+        alert("Failed to start interview: " + (response.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error starting interview. Ensure backend is running.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-transparent py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-10">
@@ -92,13 +119,13 @@ export default function InterviewSetup() {
             Back to Dashboard
           </button>
 
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Setup Interview</h1>
-          <p className="text-slate-600 text-lg">
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">Setup Interview</h1>
+          <p className="text-slate-600 dark:text-slate-400 text-lg">
             {formData.role} • {roundType}
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-slate-100">
+        <div className="bg-white dark:bg-white/5 rounded-3xl p-8 md:p-10 shadow-xl border border-slate-100 dark:border-white/10">
           <AnimatePresence mode="wait">
             {/* Step 1 */}
             {step === 1 && (
@@ -110,14 +137,14 @@ export default function InterviewSetup() {
               >
                 {/* Role Selection */}
                 <div>
-                  <label className="font-semibold flex items-center gap-2 mb-3 text-slate-700">
+                  <label className="font-semibold flex items-center gap-2 mb-3 text-slate-700 dark:text-white">
                     <User className="w-5 h-5 text-indigo-600" />
                     Select Role
                   </label>
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full border border-slate-200 rounded-2xl p-4 focus:outline-none focus:border-indigo-500 text-slate-700"
+                    className="w-full border border-slate-200 dark:border-white/15 dark:bg-white/5 dark:text-white rounded-2xl p-4 focus:outline-none focus:border-indigo-500 text-slate-700"
                   >
                     {ROLES.map((r) => (
                       <option key={r} value={r}>
@@ -129,15 +156,15 @@ export default function InterviewSetup() {
 
                 {/* Resume Upload */}
                 <div>
-                  <label className="font-semibold flex items-center gap-2 mb-3 text-slate-700">
+                  <label className="font-semibold flex items-center gap-2 mb-3 text-slate-700 dark:text-white">
                     <FileText className="w-5 h-5 text-indigo-600" />
-                    Upload Resume (Optional)
+                    Upload Resume (Required)
                   </label>
                   <div
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-slate-300 hover:border-indigo-400 hover:bg-indigo-50/50 rounded-3xl p-12 text-center cursor-pointer transition-all"
+                    className="border-2 border-dashed border-slate-300 dark:border-white/15 hover:border-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 rounded-3xl p-12 text-center cursor-pointer transition-all"
                   >
                     <input
                       type="file"
@@ -150,14 +177,14 @@ export default function InterviewSetup() {
                     {formData.resume ? (
                       <div className="flex flex-col items-center gap-3">
                         <CheckCircle2 className="w-12 h-12 text-green-500" />
-                        <p className="font-medium text-slate-800">{formData.resume.name}</p>
-                        <p className="text-sm text-slate-500">Click to change file</p>
+                        <p className="font-medium text-slate-800 dark:text-white">{formData.resume.name}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Click to change file</p>
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-3">
                         <Upload className="w-12 h-12 text-indigo-600" />
-                        <p className="font-bold text-lg">Drop your resume here</p>
-                        <p className="text-sm text-slate-500">PDF or DOCX supported</p>
+                        <p className="font-bold text-lg dark:text-white">Drop your resume here</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">PDF or DOCX supported</p>
                       </div>
                     )}
                   </div>
@@ -181,32 +208,11 @@ export default function InterviewSetup() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-8"
               >
-                {/* Company */}
-                <div>
-                  <label className="font-semibold flex items-center gap-2 mb-4 text-slate-700">
-                    <Building2 className="w-5 h-5 text-indigo-600" />
-                    Target Company
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {companies.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => setFormData({ ...formData, company: c })}
-                        className={`border rounded-2xl py-3 px-4 text-left font-medium transition-all ${
-                          formData.company === c
-                            ? "bg-indigo-600 text-white border-indigo-600"
-                            : "hover:bg-indigo-50 border-slate-200"
-                        }`}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+
 
                 {/* Experience */}
                 <div>
-                  <label className="font-semibold flex items-center gap-2 mb-4 text-slate-700">
+                  <label className="font-semibold flex items-center gap-2 mb-4 text-slate-700 dark:text-white">
                     <Briefcase className="w-5 h-5 text-indigo-600" />
                     Experience Level
                   </label>
@@ -215,7 +221,7 @@ export default function InterviewSetup() {
                     onChange={(e) =>
                       setFormData({ ...formData, experience: e.target.value })
                     }
-                    className="w-full border border-slate-200 rounded-2xl p-4 focus:outline-none focus:border-indigo-500 text-slate-700"
+                    className="w-full border border-slate-200 dark:border-white/15 dark:bg-white/5 dark:text-white rounded-2xl p-4 focus:outline-none focus:border-indigo-500 text-slate-700"
                   >
                     {experienceLevels.map((l) => (
                       <option key={l.value} value={l.value}>
@@ -227,10 +233,10 @@ export default function InterviewSetup() {
 
                 <button
                   onClick={handleStartInterview}
-                  disabled={!formData.company}
+                  disabled={isLoading}
                   className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-2xl font-bold transition"
                 >
-                  Start Interview
+                  {isLoading ? "Starting Session..." : "Start Interview"}
                 </button>
               </motion.div>
             )}
