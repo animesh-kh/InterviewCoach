@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
 
       proxy: {
         "/api": {
-          target: "http://127.0.0.1:8000",
+          target: env.VITE_API_BASE || "https://interviewcoach-production-ad2b.up.railway.app",
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),

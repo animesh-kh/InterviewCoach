@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_BASE } from "../utils/api";
 import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Briefcase } from "lucide-react";
@@ -24,8 +25,8 @@ export default function AuthPage() {
     setIsLoading(true);
     try {
       const endpoint = isLogin
-        ? "http://127.0.0.1:8000/auth/signin"
-        : "http://127.0.0.1:8000/auth/signup";
+        ? `${API_BASE}/auth/signin`
+        : `${API_BASE}/auth/signup`;
       const body = isLogin
         ? { email, password }
         : { full_name: name, email, password };
@@ -57,7 +58,7 @@ export default function AuthPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch("http://127.0.0.1:8000/auth/reset-password", {
+      const res = await fetch(`${API_BASE}/auth/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -237,8 +238,8 @@ export default function AuthPage() {
 //     try {
 
 //       const endpoint = isLogin
-//         ? "http://127.0.0.1:8000/auth/signin"
-//         : "http://127.0.0.1:8000/auth/signup";
+//         ? `${API_BASE}/auth/signin`
+//         : `${API_BASE}/auth/signup`;
 
 //       const body = isLogin
 //         ? { email, password }
@@ -285,7 +286,7 @@ export default function AuthPage() {
 
 //     try {
 
-//       const res = await fetch("http://127.0.0.1:8000/auth/reset-password", {
+//       const res = await fetch(`${API_BASE}/auth/reset-password`, {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json"
