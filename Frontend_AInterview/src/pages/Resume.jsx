@@ -74,25 +74,25 @@ export default function Resume() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-transparent p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold text-slate-900">Resume Analyzer</h1>
-          <p className="text-slate-600 mt-2 text-lg">
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white">Resume Analyzer</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 text-lg">
             Upload your resume and get AI-powered ATS insights
           </p>
         </div>
 
         {/* Upload Section */}
-        <div className="bg-white rounded-3xl shadow-sm border p-10 mb-10">
+        <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10 mb-10">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-500/15 rounded-2xl flex items-center justify-center">
               <UploadCloud className="w-7 h-7 text-indigo-600" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold">Upload Resume</h2>
-              <p className="text-slate-500">PDF, DOC, DOCX supported</p>
+              <h2 className="text-2xl font-semibold dark:text-white">Upload Resume</h2>
+              <p className="text-slate-500 dark:text-slate-400">PDF, DOC, DOCX supported</p>
             </div>
           </div>
 
@@ -102,11 +102,11 @@ export default function Resume() {
             onDragOver={handleDrag}
             onDrop={handleDrop}
             className={`border-2 border-dashed rounded-2xl p-16 text-center transition-all mb-8 ${
-              dragActive ? "border-indigo-600 bg-indigo-50" : "border-slate-300 hover:border-indigo-400"
+              dragActive ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-500/10" : "border-slate-300 dark:border-white/15 hover:border-indigo-400"
             }`}
           >
             <UploadCloud className="w-16 h-16 mx-auto text-slate-400 mb-4" />
-            <p className="text-lg font-medium">
+            <p className="text-lg font-medium dark:text-white">
               Drop your resume here or{" "}
               <label className="text-indigo-600 hover:underline cursor-pointer">
                 browse files
@@ -125,20 +125,20 @@ export default function Resume() {
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full border border-slate-300 rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 transition"
+              className="w-full border border-slate-300 dark:border-white/15 dark:bg-white/5 dark:text-white rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 transition"
             >
-              <option value="">Select Target Role</option>
-              {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+              <option value="" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Select Target Role</option>
+              {ROLES.map((r) => <option key={r} value={r} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">{r}</option>)}
             </select>
 
             <select
               value={experience}
               onChange={(e) => setExperience(e.target.value)}
-              className="w-full border border-slate-300 rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 transition"
+              className="w-full border border-slate-300 dark:border-white/15 dark:bg-white/5 dark:text-white rounded-xl px-5 py-3.5 focus:outline-none focus:border-indigo-500 transition"
             >
-              <option value="">Select Experience Level</option>
+              <option value="" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Select Experience Level</option>
               {EXPERIENCES.map((e) => (
-                <option key={e} value={e}>
+                <option key={e} value={e} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                   {e.charAt(0).toUpperCase() + e.slice(1)}
                 </option>
               ))}
@@ -156,17 +156,17 @@ export default function Resume() {
 
         {/* ====================== ANALYSIS RESULT ====================== */}
         {selectedResume && (
-          <div className="bg-white rounded-3xl shadow-sm border p-10">
+          <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10">
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-3xl font-bold text-slate-900">Analysis Result</h2>
-                <p className="text-slate-600 mt-1">
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Analysis Result</h2>
+                <p className="text-slate-600 dark:text-slate-400 mt-1">
                   {selectedResume.role} • {selectedResume.experience_level} Level
                 </p>
               </div>
 
               <div className="text-right">
-                <div className="text-sm text-slate-500">ATS Score</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">ATS Score</div>
                 <div className="text-6xl font-bold text-indigo-600">
                   {getAtsScore()}<span className="text-2xl">%</span>
                 </div>
@@ -192,7 +192,7 @@ export default function Resume() {
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <CheckCircle className="w-6 h-6 text-emerald-600" />
-                    <h3 className="text-xl font-semibold">Skills Detected in Your Resume</h3>
+                    <h3 className="text-xl font-semibold dark:text-white">Skills Detected in Your Resume</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedResume.user_skills.map((skill, i) => (
@@ -226,7 +226,7 @@ export default function Resume() {
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <Lightbulb className="w-6 h-6 text-amber-600" />
-                    <h3 className="text-xl font-semibold">Recommended to Add</h3>
+                    <h3 className="text-xl font-semibold dark:text-white">Recommended to Add</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedResume.optional_missing.map((skill, i) => (
