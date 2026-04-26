@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { UploadCloud, Award, AlertTriangle, Lightbulb, CheckCircle, XCircle, MessageSquare } from "lucide-react";
-import { uploadResume } from "../utils/api";
+import { useState, useEffect, useRef } from "react";
+import { UploadCloud, Award, AlertTriangle, Lightbulb, CheckCircle, XCircle, MessageSquare, History, FileText, ChevronRight } from "lucide-react";
+import { uploadResume, getMyResumes } from "../utils/api";
 
 const ROLES = [
   "Machine Learning",
@@ -24,6 +24,39 @@ export default function Resume() {
   const [selectedResume, setSelectedResume] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [pastResumes, setPastResumes] = useState([]);
+  const resultRef = useRef(null);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  const fetchHistory = async () => {
+    try {
+      setLoadingHistory(true);
+      const data = await getMyResumes();
+      setPastResumes(data);
+    } catch (err) {
+      console.error("Failed to fetch resume history:", err);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
+
+  const handleSelectHistory = (resume) => {
+    const merged = { 
+      ...resume.structured_data, 
+      ats_score: resume.ats_score, 
+      created_at: resume.created_at,
+      id: resume.id
+    };
+    setSelectedResume(merged);
+    // Scroll down to the analysis result section
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
 
   // Drag and Drop Handlers
   const handleDrag = (e) => {
@@ -53,6 +86,7 @@ export default function Resume() {
       setFile(null);
       setRole("");
       setExperience("");
+      fetchHistory();
     } catch (err) {
       console.error(err);
       alert("Upload failed. Please try again.");
@@ -154,9 +188,43 @@ export default function Resume() {
           </button>
         </div>
 
+        {/* ====================== RESUME HISTORY ====================== */}
+        {!loadingHistory && pastResumes.length > 0 && (
+          <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10 mb-10">
+            <div className="flex items-center gap-3 mb-6">
+              <History className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-2xl font-semibold dark:text-white">Previous Analyses</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {pastResumes.map((resume) => (
+                <div
+                  key={resume.id}
+                  onClick={() => handleSelectHistory(resume)}
+                  className="cursor-pointer p-5 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center shadow-sm">
+                      <FileText className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">
+                        {resume.structured_data?.role || "Analyzed Resume"}
+                      </h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {new Date(resume.created_at).toLocaleDateString()} • {resume.ats_score || resume.structured_data?.ats || 0}% ATS
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ====================== ANALYSIS RESULT ====================== */}
         {selectedResume && (
-          <div className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10">
+          <div ref={resultRef} className="bg-white dark:bg-white/5 rounded-3xl shadow-sm border dark:border-white/10 p-10">
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Analysis Result</h2>

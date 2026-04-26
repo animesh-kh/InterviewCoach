@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE = "http://127.0.0.1:8000";
+// const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -140,6 +141,16 @@ export const uploadResume = async (file, role, experience) => {
       "Content-Type": "multipart/form-data",
     },
   });
+  return response.data;
+};
+
+export const getMyResumes = async () => {
+  const response = await api.get("/resumes/");
+  return response.data;
+};
+
+export const getResumeInfo = async (id) => {
+  const response = await api.get(`/resumes/${id}`);
   return response.data;
 };
 
