@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Resume from "./pages/Resume";
 import InterviewSetup from "./pages/InterviewSetup";
 import InterviewSession from "./pages/InterviewSession";
+import FinalResults from "./pages/FinalResults";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="resume" element={<Resume />} />
           <Route path="interview/setup" element={<InterviewSetup />} />
           <Route path="interview/session" element={<InterviewSession />} />
+          <Route path="interview/results" element={<FinalResults />} />
         </Route>
       </Routes>
     </>
