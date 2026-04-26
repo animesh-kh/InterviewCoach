@@ -1,29 +1,30 @@
+import axios from "axios";
+
 const API_BASE = "http://127.0.0.1:8000";
 
-export const signin = async (credentials) => {
-  const response = await fetch(`${API_BASE}/auth/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  });
-  const data = await response.json();
-  if (data.access_token) {
-    localStorage.setItem("token", data.access_token);
+const api = axios.create({
+  baseURL: API_BASE,
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-  return data;
+  return config;
+});
+
+export const signin = async (credentials) => {
+  const response = await api.post("/auth/signin", credentials);
+  if (response.data.access_token) {
+    localStorage.setItem("token", response.data.access_token);
+  }
+  return response.data;
 };
 
 export const signup = async (userData) => {
-  const response = await fetch(`${API_BASE}/auth/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
-  return response.json();
+  const response = await api.post("/auth/signup", userData);
+  return response.data;
 };
 
 export const signout = () => {
@@ -35,76 +36,126 @@ export const getToken = () => {
 };
 
 export const getCurrentUser = async () => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE}/auth/me`, {
+  const response = await api.get("/auth/me");
+  return response.data;
+};
+
+// ── Interview Flow Endpoints ──────────────────────────────────────────────
+
+export const startInterviewSession = async (resumeFile, jobRole, seniority) => {
+  const formData = new FormData();
+  formData.append("resume", resumeFile);
+  formData.append("job_role", jobRole);
+  formData.append("seniority", seniority);
+
+  const response = await api.post("/interviews/start", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
     },
   });
-  return response.json();
+  return response.data;
+};
+
+export const submitFollowUp = async (
+  interviewId,
+  questionNumber,
+  answerType,
+  answerText,
+  answerAudio
+) => {
+  const formData = new FormData();
+  formData.append("interview_id", interviewId);
+  formData.append("question_number", questionNumber);
+  formData.append("answer_type", answerType);
+  if (answerText) formData.append("answer_text", answerText);
+  if (answerAudio) formData.append("answer_audio", answerAudio);
+
+  const response = await api.post("/interviews/get-follow-up", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
+export const getNextQuestion = async (
+  interviewId,
+  questionNumber,
+  answerType,
+  answerText,
+  answerAudio
+) => {
+  const formData = new FormData();
+  formData.append("interview_id", interviewId);
+  formData.append("question_number", questionNumber); // This is the NEXT question number
+  formData.append("answer_type", answerType);
+  if (answerText) formData.append("answer_text", answerText);
+  if (answerAudio) formData.append("answer_audio", answerAudio);
+
+  const response = await api.post("/interviews/get-next-question", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
+export const endInterviewSession = async (
+  interviewId,
+  answerType,
+  answerText,
+  answerAudio
+) => {
+  const formData = new FormData();
+  formData.append("interview_id", interviewId);
+  formData.append("answer_type", answerType);
+  if (answerText) formData.append("answer_text", answerText);
+  if (answerAudio) formData.append("answer_audio", answerAudio);
+
+  const response = await api.post("/interviews/end", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
+export const getInterviewHistory = async () => {
+  const response = await api.get("/interviews/");
+  return response.data;
+};
+
+export const getInterview = async (id) => {
+  const response = await api.get(`/interviews/${id}`);
+  return response.data;
 };
 
 export const uploadResume = async (file, role, experience) => {
-  const token = getToken();
   const formData = new FormData();
   formData.append("file", file);
   formData.append("role", role);
   formData.append("experience", experience);
-  const response = await fetch(`${API_BASE}/resumes/analyze`, {
-    method: "POST",
+  const response = await api.post("/resumes/analyze", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
     },
-    body: formData,
   });
-
-  return response.json();
+  return response.data;
 };
 
-export const startInterview = async (data) => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE}/interviews/start`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
+export const callSTT = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
 
-  return response.json();
+  const response = await api.post("/transcribe", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data.text;
 };
 
-export const saveInterview = async (data) => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE}/interviews/save`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-};
-
-export const getInterviewHistory = async () => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE}/interviews/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.json();
-};
-
-export const getInterview = async (id) => {
-  const token = getToken();
-  const response = await fetch(`${API_BASE}/interviews/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.json();
+export const callTTS = async (text) => {
+  const response = await api.post("/tts", { text }, { responseType: "blob" });
+  return URL.createObjectURL(response.data);
 };
