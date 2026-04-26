@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const API_BASE = "http://127.0.0.1:8000";
 const API_BASE = import.meta.env.VITE_API_BASE || "https://interviewcoach-production-ad2b.up.railway.app";
-
+console.log("API_BASE =", API_BASE);
 const api = axios.create({
   baseURL: API_BASE,
 });
