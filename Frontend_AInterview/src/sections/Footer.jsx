@@ -1,4 +1,5 @@
-import { Bot, Twitter, Linkedin, Github } from 'lucide-react';
+
+import { FaRobot, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <Bot className="text-white w-5 h-5" />
+                <FaRobot className="text-white" style={{ width: '1.25rem', height: '1.25rem' }} />
               </div>
               <span className="text-xl font-display font-bold text-white tracking-tight">
                 IntervAI
@@ -22,13 +23,13 @@ const Footer = () => {
 
             <div className="flex items-center gap-4">
               <a href="#" className="hover:text-white transition-colors">
-                <Twitter className="w-5 h-5" />
+                <FaTwitter style={{ width: '1.25rem', height: '1.25rem' }} />
               </a>
               <a href="#" className="hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
+                <FaLinkedin style={{ width: '1.25rem', height: '1.25rem' }} />
               </a>
               <a href="#" className="hover:text-white transition-colors">
-                <Github className="w-5 h-5" />
+                <FaGithub style={{ width: '1.25rem', height: '1.25rem' }} />
               </a>
             </div>
           </div>
