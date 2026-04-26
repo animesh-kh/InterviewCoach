@@ -9,7 +9,7 @@ export default function FinalResults() {
 
   const { score, feedback } = location.state || {};
 
-  if (!score || !feedback) {
+  if (score == null || feedback == null) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] dark:bg-transparent flex flex-col items-center justify-center">
         <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-4">No results found</h2>

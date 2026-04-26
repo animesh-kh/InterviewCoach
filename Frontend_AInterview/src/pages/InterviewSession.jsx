@@ -26,6 +26,7 @@ export default function InterviewSession() {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const recognitionRef = useRef(null);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
     if (!interviewData) {
@@ -86,8 +87,11 @@ export default function InterviewSession() {
       setError("Speech recognition is not supported in this browser.");
     }
 
-    // Start flow: Play intro, then first question
-    startFlow();
+    // Start flow: Play intro, then first question (guard against StrictMode double-invoke)
+    if (!hasStartedRef.current) {
+      hasStartedRef.current = true;
+      startFlow();
+    }
 
     return () => {
       if (audioRef.current) audioRef.current.pause();
