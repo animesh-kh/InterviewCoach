@@ -13,6 +13,15 @@ def sign_up(body: SignUpRequest):
             "options": {"data": {"full_name": body.full_name}}
         })
 
+        if not res.session:
+            # Email confirmation might be required
+            return AuthResponse(
+                access_token="",
+                refresh_token="",
+                user_id=str(res.user.id) if res.user else "",
+                email=res.user.email if res.user else body.email
+            )
+
         return AuthResponse(
             access_token=res.session.access_token,
             refresh_token=res.session.refresh_token,
