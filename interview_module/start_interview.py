@@ -2,26 +2,24 @@ import os
 import json
 import io
 import PyPDF2
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from groq import Groq # <--- Make sure this is here!
 from supabase import create_client, Client as SupabaseClient
 
-# Load variables from the .env in THIS module's directory (isolated from backend .env)
-_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-_env = dotenv_values(_env_path)
+# Load the common .env file from backend/app/
+_env_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "backend", "app", ".env")
+)
+load_dotenv(_env_path)
 
 # 1. Initialize Groq Client
-groq_api_key = _env.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
-groq_client = Groq(api_key=groq_api_key)
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 # 2. Initialize Supabase Client (uses interview_module's own database)
-supabase_url = _env.get("SUPABASE_URL") or os.environ.get("SUPABASE_URL")
-supabase_key = _env.get("SUPABASE_KEY") or os.environ.get("SUPABASE_KEY")
-
-if not supabase_url or not supabase_key:
-    raise ValueError("Supabase credentials not found. Make sure .env is set.")
-
-supabase: SupabaseClient = create_client(supabase_url, supabase_key)
+supabase: SupabaseClient = create_client(
+    os.environ.get("INTERVIEW_SUPABASE_URL"),
+    os.environ.get("INTERVIEW_SUPABASE_KEY"),
+)
 
 def extract_text_from_pdf(pdf_bytes):
     """Parses raw PDF bytes into a clean string."""

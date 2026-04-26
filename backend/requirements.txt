@@ -1,3 +1,4 @@
+# ── Backend ───────────────────────────
 fastapi
 uvicorn[standard]
 supabase
@@ -6,5 +7,14 @@ python-jose[cryptography]
 python-multipart
 pydantic[email]
 httpx
+
+# ── Interview Module ──────────────────
 groq
 PyPDF2
+google-genai
+postgrest
+requests
+
+# ── Resume Analyzer ──────────────────
+pdfplumber
+python-docx

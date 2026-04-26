@@ -1,12 +1,17 @@
 import os
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from groq import Groq
 from supabase import create_client, Client
 
-# Load variables from the .env in THIS module's directory (isolated from backend .env)
-_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
-_env = dotenv_values(_env_path)
+# Load the common .env file from backend/app/
+_env_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "backend", "app", ".env")
+)
+load_dotenv(_env_path)
 
-# Shared Clients
-groq_client = Groq(api_key=_env.get("GROQ_API_KEY"))
-supabase: Client = create_client(_env.get("SUPABASE_URL"), _env.get("SUPABASE_KEY"))
+# Shared Clients (uses INTERVIEW_ prefixed Supabase credentials)
+groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+supabase: Client = create_client(
+    os.environ.get("INTERVIEW_SUPABASE_URL"),
+    os.environ.get("INTERVIEW_SUPABASE_KEY"),
+)
