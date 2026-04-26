@@ -11,11 +11,16 @@ _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
 _env = dotenv_values(_env_path)
 
 # 1. Initialize Groq Client
-groq_client = Groq(api_key=_env.get("GROQ_API_KEY"))
+groq_api_key = _env.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
+groq_client = Groq(api_key=groq_api_key)
 
 # 2. Initialize Supabase Client (uses interview_module's own database)
-supabase_url = _env.get("SUPABASE_URL")
-supabase_key = _env.get("SUPABASE_KEY")
+supabase_url = _env.get("SUPABASE_URL") or os.environ.get("SUPABASE_URL")
+supabase_key = _env.get("SUPABASE_KEY") or os.environ.get("SUPABASE_KEY")
+
+if not supabase_url or not supabase_key:
+    raise ValueError("Supabase credentials not found. Make sure .env is set.")
+
 supabase: SupabaseClient = create_client(supabase_url, supabase_key)
 
 def extract_text_from_pdf(pdf_bytes):
